@@ -15,8 +15,9 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class BackGroundMusicStartStopAct extends Activity {
-    Context mContext;
-    Button btnStart, btnStop;
+    private Context mContext;
+    private Button btnStart;
+    private Button btnStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

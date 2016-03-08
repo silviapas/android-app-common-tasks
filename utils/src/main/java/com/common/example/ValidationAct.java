@@ -17,9 +17,8 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class ValidationAct extends Activity {
-    EditText etEmpty;
-    Button btnEmpty, btnEmail;
-    Context mContext;
+    private EditText etEmpty;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +31,8 @@ public class ValidationAct extends Activity {
     private void init() {
         etEmpty = (EditText) findViewById(R.id.etValidation);
 
-        btnEmpty = (Button) findViewById(R.id.btnEmpty);
-        btnEmail = (Button) findViewById(R.id.btnEmail);
+        Button btnEmpty = (Button) findViewById(R.id.btnEmpty);
+        Button btnEmail = (Button) findViewById(R.id.btnEmail);
 
         btnEmpty.setOnClickListener(new OnClickListener() {
 

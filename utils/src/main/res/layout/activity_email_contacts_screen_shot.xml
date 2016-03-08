@@ -13,7 +13,6 @@
     <com.andexert.library.RippleView xmlns:ripple="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_margin="10dp"
         ripple:rv_centered="false">
 
@@ -35,7 +34,7 @@
         <TextView
             android:id="@+id/email_list_tv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#33b5e5" />

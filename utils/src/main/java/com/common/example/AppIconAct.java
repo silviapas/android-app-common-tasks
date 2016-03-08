@@ -16,9 +16,8 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class AppIconAct extends Activity {
-    Context mContext;
-    ImageView ivImagePich;
-    Button btnAppIcon;
+    private Context mContext;
+    private ImageView ivImagePich;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class AppIconAct extends Activity {
         ivImagePich = (ImageView) findViewById(R.id.ivAppIcon);
 
 
-        btnAppIcon = (Button) findViewById(R.id.btnAppIcon);
+        Button btnAppIcon = (Button) findViewById(R.id.btnAppIcon);
         btnAppIcon.setOnClickListener(new OnClickListener() {
 
             @Override

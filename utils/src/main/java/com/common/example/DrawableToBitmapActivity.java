@@ -8,14 +8,12 @@ import com.common.utils.R;
 
 public class DrawableToBitmapActivity extends Activity {
 
-    private TextView tvCode;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawable_to_bitmap);
 
-        tvCode = (TextView) findViewById(R.id.drawable_bitmap_tv_code);
+        TextView tvCode = (TextView) findViewById(R.id.drawable_bitmap_tv_code);
         tvCode.setText(
                 " \n\n \t CONVERT DRAWABLE TO BITMAP \n\n" +
                         " /**\n" +

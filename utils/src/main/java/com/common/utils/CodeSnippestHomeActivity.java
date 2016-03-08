@@ -16,16 +16,14 @@ import com.common.example.ClientPostMultipartEntityActivity;
 
 public class CodeSnippestHomeActivity extends Activity {
 
-    Context mContext;
-    Activity mActivity;
-    ListView sdkFunctionalityList;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = CodeSnippestHomeActivity.this;
-        mActivity = CodeSnippestHomeActivity.this;
+        //Activity mActivity = CodeSnippestHomeActivity.this;
 
         String[] sdkFunctionalityListValue = new String[]{
                 "Executing a HTTP Get Request",/* 0 */
@@ -33,7 +31,7 @@ public class CodeSnippestHomeActivity extends Activity {
                 "Executing a HTTP post Request for Send Audio,Video and Image",/* 2 */
         };
 
-        sdkFunctionalityList = (ListView) findViewById(R.id.Md_list_company);
+        ListView sdkFunctionalityList = (ListView) findViewById(R.id.Md_list_company);
 
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, sdkFunctionalityListValue);
@@ -49,7 +47,7 @@ public class CodeSnippestHomeActivity extends Activity {
 
     }
 
-    protected void selectedListItem(int position) {
+    private void selectedListItem(int position) {
         switch (position) {
             case 0:
                 Intent intget = new Intent(mContext, ClientGetActivity.class);

@@ -16,8 +16,8 @@ import com.common.utils.R;
 
 public class OAuthActivity extends Activity {
 
-    public static final String PARAM_URL_TO_LOAD = "OAuthActivity.PARAM_URL_TO_LOAD";
-    public static final String PARAM_CALLBACK = "OAuthActivity.PARAM_CALLBACK";
+    private static final String PARAM_URL_TO_LOAD = "OAuthActivity.PARAM_URL_TO_LOAD";
+    private static final String PARAM_CALLBACK = "OAuthActivity.PARAM_CALLBACK";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,17 +11,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.common.utils.Common;
 import com.common.utils.R;
 
 public class DownloadImageFromUrlAct extends Activity {
-    Context mContext;
-    ImageView ivDownLoadImage;
-    Button btnDownLoadImage;
-    TextView tvDefaultDownLoadImageUrl;
+    private Context mContext;
+    private ImageView ivDownLoadImage;
+    private Button btnDownLoadImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +34,7 @@ public class DownloadImageFromUrlAct extends Activity {
     private void init() {
         ivDownLoadImage = (ImageView) findViewById(R.id.ivDownLoadImage);
         btnDownLoadImage = (Button) findViewById(R.id.btnDownLoadImage);
-        tvDefaultDownLoadImageUrl = (TextView) findViewById(R.id.tvDefaultDownLoadImageUrl);
+        //TextView tvDefaultDownLoadImageUrl = (TextView) findViewById(R.id.tvDefaultDownLoadImageUrl);
 
         btnDownLoadImage.setOnClickListener(new OnClickListener() {
 

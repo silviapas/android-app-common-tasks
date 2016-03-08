@@ -18,14 +18,15 @@ import java.net.URLConnection;
 /**
  * Created by Sanjay on 2/2/2015.
  */
-public class DownloadFile extends AsyncTask<String, String, String> {
+@SuppressWarnings("DefaultFileTemplate")
+class DownloadFile extends AsyncTask<String, String, String> {
 
 
     private final String strurl;
     private final Context mContext;
     private final String filename;
     private final boolean download;
-    float filesize;
+    private float filesize;
     private ProgressDialog pDialog;
 
     DownloadFile(Context context, String url, String filename, boolean download) {
@@ -45,9 +46,8 @@ public class DownloadFile extends AsyncTask<String, String, String> {
                 return null;
             }
         }
-        File mediaFile = new File(mediaStorageDir.getPath() + File.separator + filename);
 
-        return mediaFile;
+        return new File(mediaStorageDir.getPath() + File.separator + filename);
     }
 
     @Override
@@ -75,10 +75,10 @@ public class DownloadFile extends AsyncTask<String, String, String> {
 
             if (download) {
                 InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(getOutputMediaFile(filename));
+                @SuppressWarnings("ConstantConditions") OutputStream output = new FileOutputStream(getOutputMediaFile(filename));
                 byte data[] = new byte[1024];
                 long total = 0;
-                int count = 0;
+                int count;
                 while ((count = input.read(data)) != -1) {
                     total += count;
                     output.write(data, 0, count);
@@ -101,10 +101,16 @@ public class DownloadFile extends AsyncTask<String, String, String> {
             pDialog.dismiss();
         }
 
-        if (!download)
-            Common.showAlertDialog(mContext, "File Size", "Size of file at " + strurl + "  is " + filesize + " MB", false);
-        else
-            Common.showAlertDialog(mContext, "File Path", "File stored at " + getOutputMediaFile(filename).getPath().toString(), false);
+        try {
+            if (!download)
+                Common.showAlertDialog(mContext, "File Size", "Size of file at " + strurl + "  is " + filesize + " MB", false);
+            else
+                //noinspection ConstantConditions
+                Common.showAlertDialog(mContext, "File Path", "File stored at " + getOutputMediaFile(filename).getPath(), false);
+        }
+        catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
 }

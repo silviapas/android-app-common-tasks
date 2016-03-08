@@ -1,5 +1,6 @@
 package com.common.utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -53,6 +54,7 @@ import android.provider.ContactsContract;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.service.textservice.SpellCheckerService.Session;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -108,8 +110,8 @@ public class Common {
     public static final String LOGIN_FIRST_NAME = "LOGIN_FIRST_NAME";
     public static final String LOGIN_LAST_NAME = "LOGIN_LAST_NAME";
     public static final String LOGIN_EMAIL = "LOGIN_EMAIL";
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
+    private static final int MEDIA_TYPE_IMAGE = 1;
+    private static final int MEDIA_TYPE_VIDEO = 2;
     public static final String IMAGE_DIRECTORY_NAME = "CommonDirectory";
     //	public static Facebook facebook;
     static final String TOKEN = "access_token";
@@ -120,21 +122,15 @@ public class Common {
     /**
      * SharedPreferences
      */
-    static SharedPreferences prefs;
-    static LocationManager locationManager;
-    static boolean isNetworkEnabled = false, isGPSEnabled = false;
-    static Location location;
-    static double latitude, longitude;
-    // -----------------------------------------------
-    static KeyguardManager keyguardManager;
-    static KeyguardLock lock;
+    private static SharedPreferences prefs;
+    private static LocationManager locationManager;
+    private static boolean isGPSEnabled = false;
+    private static Location location;
+    private static KeyguardLock lock;
     //	private static AsyncFacebookRunner mAsyncRunner;
     static SharedPreferences preferences;
-    private static Calendar dateTime = Calendar.getInstance();
-    private static String[] suffix = new String[]{"", "k", "m", "b", "t"};
-
-    // -----------------------------------------------
-    private static int MAX_LENGTH = 5;
+    private static final Calendar dateTime = Calendar.getInstance();
+    private static final String[] suffix = new String[]{"", "k", "m", "b", "t"};
 
     // -----------------------------------------------
     private static Uri fileUri;
@@ -149,10 +145,7 @@ public class Common {
      * @return true or false
      */
     public static boolean isEmptyEditText(EditText edText) {
-        if (edText.getText().toString().trim().length() > 0)
-            return false;
-        else
-            return true;
+        return edText.getText().toString().trim().length() <= 0;
     }
 
     /**
@@ -166,10 +159,7 @@ public class Common {
         ConnectivityManager cm = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     /**
@@ -183,7 +173,7 @@ public class Common {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
         editor.putString(prefName, Value);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -210,11 +200,11 @@ public class Common {
      * @param prefName
      * @param Value
      */
-    public static void setIntPrefrences(Context context, String prefName, int Value, String PREFS_FILE_NAME) {
+    public static void setIntPrefrences(Context context, @SuppressWarnings("SameParameterValue") String prefName, int Value, String PREFS_FILE_NAME) {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
         editor.putInt(prefName, Value);
-        editor.commit();
+        editor.apply();
     }
 
     // -----------------------------------------------
@@ -226,7 +216,7 @@ public class Common {
      * @param prefName
      * @return
      */
-    public static int getIntPrefrences(Context context, String prefName, String PREFS_FILE_NAME) {
+    public static int getIntPrefrences(Context context, @SuppressWarnings("SameParameterValue") String prefName, String PREFS_FILE_NAME) {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         return prefs.getInt(prefName, 0);
     }
@@ -240,11 +230,11 @@ public class Common {
      * @param prefName
      * @param Value
      */
-    public static void setBooleanPrefrences(Context context, String prefName, Boolean Value, String PREFS_FILE_NAME) {
+    public static void setBooleanPrefrences(Context context, @SuppressWarnings("SameParameterValue") String prefName, Boolean Value, String PREFS_FILE_NAME) {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
         editor.putBoolean(prefName, Value);
-        editor.commit();
+        editor.apply();
     }
 
     // -----------------------------------------------
@@ -256,7 +246,7 @@ public class Common {
      * @param prefName
      * @return
      */
-    public static boolean getBooleanPrefrences(Context context, String prefName, String PREFS_FILE_NAME) {
+    public static boolean getBooleanPrefrences(Context context, @SuppressWarnings("SameParameterValue") String prefName, String PREFS_FILE_NAME) {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         return prefs.getBoolean(prefName, false);
     }
@@ -270,11 +260,11 @@ public class Common {
      * @param prefName
      * @param Value
      */
-    public static void setFloatPrefrences(Context context, String prefName, Float Value, String PREFS_FILE_NAME) {
+    public static void setFloatPrefrences(Context context, @SuppressWarnings("SameParameterValue") String prefName, Float Value, String PREFS_FILE_NAME) {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
         editor.putFloat(prefName, Value);
-        editor.commit();
+        editor.apply();
     }
 
     // -----------------------------------------------
@@ -287,7 +277,7 @@ public class Common {
      * @param prefName
      * @return
      */
-    public static float getFloatPrefrences(Context context, String prefName, String PREFS_FILE_NAME) {
+    public static float getFloatPrefrences(Context context, @SuppressWarnings("SameParameterValue") String prefName, String PREFS_FILE_NAME) {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         return prefs.getFloat(prefName, 0);
     }
@@ -301,11 +291,11 @@ public class Common {
      * @param prefName
      * @param Value
      */
-    public static void setLongPrefrences(Context context, String prefName, Long Value, String PREFS_FILE_NAME) {
+    public static void setLongPrefrences(Context context, @SuppressWarnings("SameParameterValue") String prefName, Long Value, String PREFS_FILE_NAME) {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
         editor.putLong(prefName, Value);
-        editor.commit();
+        editor.apply();
     }
 
     // -----------------------------------------------
@@ -317,7 +307,7 @@ public class Common {
      * @param prefName
      * @return
      */
-    public static long getLongPrefrences(Context context, String prefName, String PREFS_FILE_NAME) {
+    public static long getLongPrefrences(Context context, @SuppressWarnings("SameParameterValue") String prefName, String PREFS_FILE_NAME) {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         return prefs.getLong(prefName, 0);
     }
@@ -330,15 +320,11 @@ public class Common {
      */
     public static boolean isEmailIdValid(String email) {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        CharSequence inputStr = email;
 
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(inputStr);
+        Matcher matcher = pattern.matcher(email);
 
-        if (matcher.matches())
-            return true;
-        else
-            return false;
+        return matcher.matches();
     }
 
     /**
@@ -349,8 +335,7 @@ public class Common {
      */
     public static String getCurrentDate(String dateFormat) {
         Date d = new Date();
-        String currentDate = new SimpleDateFormat(dateFormat).format(d.getTime());
-        return currentDate;
+        return new SimpleDateFormat(dateFormat).format(d.getTime());
     }
 
     /**
@@ -377,7 +362,7 @@ public class Common {
         prefs = context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
     // ===========================================
@@ -400,22 +385,37 @@ public class Common {
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
             System.out.println("gps band chhe" + isGPSEnabled);
             // getting network status
-            isNetworkEnabled = locationManager
+            boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
+            //noinspection StatementWithEmptyBody
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
 //                Common.showGPSDisabledAlert("Please enable your location or connect to cellular network.", context);
             } else {
+                //double longitude;
+                //double latitude;
                 if (isNetworkEnabled) {
                     Log.d("Network", "Network");
                     if (locationManager != null) {
+                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return location;
+                        }
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        /*
                         if (location != null) {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
                         }
+                        */
                     }
                 }
                 // if GPS Enabled get lat/long using GPS Services
@@ -423,12 +423,24 @@ public class Common {
                     if (location == null) {
                         Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
+                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return location;
+                            }
                             location = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            /*
                             if (location != null) {
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
                             }
+                            */
                         }
                     }
                 }
@@ -459,7 +471,7 @@ public class Common {
      * @return Icon as drawable from the application
      */
     public static Drawable getAppIcon(Context mContext) {
-        Drawable icon = null;
+        Drawable icon;
         final PackageManager pm = mContext.getPackageManager();
         String packageName = mContext.getPackageName();
         try {
@@ -482,7 +494,7 @@ public class Common {
     @SuppressLint("NewApi")
     @SuppressWarnings({"static-access"})
     public static void sendLocatNotification(Context mContext, String title,
-                                             String message, Intent mIntent) {
+                                             String message, @SuppressWarnings("SameParameterValue") Intent mIntent) {
         System.out.println("called: " + title + " : " + message);
         int appIconResId = 0;
         PendingIntent pIntent = null;
@@ -565,7 +577,7 @@ public class Common {
         System.out.println("disable");
         ((Activity) mContext).getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        keyguardManager = (KeyguardManager) mContext
+        KeyguardManager keyguardManager = (KeyguardManager) mContext
                 .getSystemService(Activity.KEYGUARD_SERVICE);
         lock = keyguardManager.newKeyguardLock(mContext.KEYGUARD_SERVICE);
         lock.disableKeyguard();
@@ -647,7 +659,7 @@ public class Common {
      * @param path       location in which you have to create folder
      * @param folderName name of the folder
      */
-    public static boolean createFolder(Context mContext, String path,
+    public static boolean createFolder(@SuppressWarnings("UnusedParameters") Context mContext, String path,
                                        String folderName) {
         File SDCardRoot = new File(path, folderName);
         if (!SDCardRoot.exists()) {
@@ -712,8 +724,7 @@ public class Common {
                 SimpleDateFormat dateFormatter = new SimpleDateFormat(format);
                 dateTime.set(year, monthOfYear, dayOfMonth);
 
-                mTextView.setText(dateFormatter.format(dateTime.getTime())
-                        .toString());
+                mTextView.setText(dateFormatter.format(dateTime.getTime()));
             }
         }, dateTime.get(Calendar.YEAR), dateTime.get(Calendar.MONTH),
                 dateTime.get(Calendar.DAY_OF_MONTH)).show();
@@ -737,8 +748,7 @@ public class Common {
                 dateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 dateTime.set(Calendar.MINUTE, minute);
 
-                mTextView.setText(timeFormatter.format(dateTime.getTime())
-                        .toString());
+                mTextView.setText(timeFormatter.format(dateTime.getTime()));
             }
         }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE),
                 false).show();
@@ -818,7 +828,7 @@ public class Common {
      * @param format  of the date like "yyyy-MM-dd"
      * @return date in Date format
      */
-    public static Date stringToDate(String strdate, String format) {
+    public static Date stringToDate(String strdate, @SuppressWarnings("SameParameterValue") String format) {
         Date date = null;
         SimpleDateFormat formatter = new SimpleDateFormat(format);
         try {
@@ -874,7 +884,7 @@ public class Common {
      * @return number in string with postfix
      */
     public static String getPostFixForNumber(int number) {
-        String strValue = "";
+        String strValue;
         // int npos = Integer.valueOf(Pos);
 
         switch (number % 10) {
@@ -901,9 +911,8 @@ public class Common {
      * @return array list
      */
     public static ArrayList<String> stringToArrayList(String string) {
-        ArrayList<String> strValueList = new ArrayList<String>(
+        return new ArrayList<>(
                 Arrays.asList(string.split(",")));
-        return strValueList;
     }
 
     /**
@@ -916,10 +925,11 @@ public class Common {
         String strValue = null;
         StringBuilder sb = new StringBuilder();
         for (String s : list) {
-            sb.append(s + ",");
+            sb.append(s).append(",");
             strValue = sb.toString();
         }
 
+        assert strValue != null;
         if (strValue.length() > 0
                 && strValue.charAt(strValue.length() - 1) == ',') {
             strValue = strValue.substring(0, strValue.length() - 1);
@@ -984,6 +994,7 @@ public class Common {
     public static Bitmap drawableTobitmap(Context mContext, int drawable) {
         // TODO Auto-generated method stub
         Drawable myDrawable = mContext.getResources().getDrawable(drawable);
+        assert myDrawable != null;
         return ((BitmapDrawable) myDrawable).getBitmap();
     }
 
@@ -994,7 +1005,7 @@ public class Common {
      * @param bitmap   for convert to drawable
      * @return drawable image
      */
-    public static Drawable bitmapToDrawable(Context mContext, Bitmap bitmap) {
+    public static Drawable bitmapToDrawable(@SuppressWarnings("UnusedParameters") Context mContext, Bitmap bitmap) {
         return new BitmapDrawable(bitmap);
     }
 
@@ -1149,9 +1160,8 @@ public class Common {
         try {
             String imageString = getStringPrefrences(mContext, name, PREFS_FILE_NAME);
             byte[] encodeByte = Base64.decode(imageString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
+            return BitmapFactory.decodeByteArray(encodeByte, 0,
                     encodeByte.length);
-            return bitmap;
         } catch (Exception e) {
             e.getMessage();
             return null;
@@ -1173,11 +1183,12 @@ public class Common {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        assert pInfo != null;
         return pInfo.versionCode;
     }
 
     // -----------------------
-    public static boolean isSDCardAvailable(Context mContext) {
+    public static boolean isSDCardAvailable(@SuppressWarnings("UnusedParameters") Context mContext) {
         return Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED);
 
@@ -1310,6 +1321,7 @@ public class Common {
         String r = new DecimalFormat("##0E0").format(number);
         r = r.replaceAll("E[0-9]",
                 suffix[Character.getNumericValue(r.charAt(r.length() - 1)) / 3]);
+        int MAX_LENGTH = 5;
         while (r.length() > MAX_LENGTH || r.matches("[0-9]+\\.[a-z]")) {
             r = r.substring(0, r.length() - 2) + r.substring(r.length() - 1);
         }
@@ -1333,7 +1345,7 @@ public class Common {
 
         byte[] ba = bao.toByteArray();
 
-        String ba1 = Base64.encodeToString(ba, 0);
+        @SuppressWarnings("UnusedAssignment") String ba1 = Base64.encodeToString(ba, 0);
         return mBase64;
     }
 
@@ -1345,7 +1357,7 @@ public class Common {
      * @param uri
      * @param shareText
      */
-    public static void openShareDialog(Context context, String title, String uri, String shareText, String shareSubject) {
+    public static void openShareDialog(Context context, String title, @SuppressWarnings("SameParameterValue") String uri, String shareText, String shareSubject) {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, shareText);
@@ -1383,7 +1395,7 @@ public class Common {
      * @param roundPixels
      * @return
      */
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int roundPixels) {
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, @SuppressWarnings("SameParameterValue") int roundPixels) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
                 .getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
@@ -1392,12 +1404,11 @@ public class Common {
         final Paint paint = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         final RectF rectF = new RectF(rect);
-        final float roundPx = roundPixels;
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        canvas.drawRoundRect(rectF, (float) roundPixels, (float) roundPixels, paint);
 
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
@@ -1435,10 +1446,8 @@ public class Common {
             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         } else {
 
-            AlertDialog alertDialog = null;
             if (!((Activity) context).isFinishing()) {
-                if (alertDialog == null)
-                    alertDialog = new AlertDialog.Builder(context).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                 // Setting Dialog Title
                 alertDialog.setTitle(title);
                 // Setting Dialog Message
@@ -1462,7 +1471,7 @@ public class Common {
      * @param CAMERA_CAPTURE_IMAGE_REQUEST_CODE
      * @param camera
      */
-    public static void captureImage(Context mContext, int CAMERA_CAPTURE_IMAGE_REQUEST_CODE, String camera) {
+    public static void captureImage(Context mContext, @SuppressWarnings("SameParameterValue") int CAMERA_CAPTURE_IMAGE_REQUEST_CODE, @SuppressWarnings("SameParameterValue") String camera) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -1485,8 +1494,6 @@ public class Common {
             BitmapFactory.Options options = new BitmapFactory.Options();
             final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
             ivImagePreview.setImageBitmap(bitmap);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         } catch (OutOfMemoryError outOfMemoryError) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             // downsizing image as it throws OutOfMemory Exception for larger images
@@ -1498,7 +1505,7 @@ public class Common {
         }
     }
 
-    public static void recordVideo(Context mContext, int CAMERA_CAPTURE_VIDEO_REQUEST_CODE, String camera) {
+    public static void recordVideo(Context mContext, @SuppressWarnings("SameParameterValue") int CAMERA_CAPTURE_VIDEO_REQUEST_CODE, @SuppressWarnings("SameParameterValue") String camera) {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
@@ -1511,8 +1518,12 @@ public class Common {
         ((Activity) mContext).startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
     }
 
-    public static void pickVideo(Context mContext, int CAMERA_PICK_VIDEO_REQUEST_CODE) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+    public static void pickVideo(Context mContext, @SuppressWarnings("SameParameterValue") int CAMERA_PICK_VIDEO_REQUEST_CODE) {
+        Intent intent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        }
+        assert intent != null;
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("video/*");
         ((Activity) mContext).startActivityForResult(intent, CAMERA_PICK_VIDEO_REQUEST_CODE);
@@ -1543,7 +1554,7 @@ public class Common {
 //        return data.getData();
 //    }
 
-    public static Uri getOutputMediaFileUri(int type) {
+    private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
 
@@ -1655,8 +1666,8 @@ public class Common {
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
-    public static String getDataColumn(Context context, Uri uri, String selection,
-                                       String[] selectionArgs) {
+    private static String getDataColumn(Context context, Uri uri, String selection,
+                                        String[] selectionArgs) {
 
         Cursor cursor = null;
         final String column = "_data";
@@ -1682,7 +1693,7 @@ public class Common {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is ExternalStorageProvider.
      */
-    public static boolean isExternalStorageDocument(Uri uri) {
+    private static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
@@ -1690,7 +1701,7 @@ public class Common {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is DownloadsProvider.
      */
-    public static boolean isDownloadsDocument(Uri uri) {
+    private static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
@@ -1698,7 +1709,7 @@ public class Common {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
      */
-    public static boolean isMediaDocument(Uri uri) {
+    private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
@@ -1706,7 +1717,7 @@ public class Common {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is Google Photos.
      */
-    public static boolean isGooglePhotosUri(Uri uri) {
+    private static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
@@ -1715,8 +1726,8 @@ public class Common {
     }
 
     public static ArrayList<String> getNameEmailDetails(Context context) {
-        ArrayList<String> emlRecs = new ArrayList<String>();
-        HashSet<String> emlRecsHS = new HashSet<String>();
+        ArrayList<String> emlRecs = new ArrayList<>();
+        HashSet<String> emlRecsHS = new HashSet<>();
         ContentResolver cr = context.getContentResolver();
         String[] PROJECTION = new String[]{ContactsContract.RawContacts._ID,
                 ContactsContract.Contacts.DISPLAY_NAME,
@@ -1787,7 +1798,7 @@ public class Common {
         alert.show();
     }
 
-    public static void showGPSDisabledAlert(String msg, final Context ctx) {
+    public static void showGPSDisabledAlert(@SuppressWarnings("SameParameterValue") String msg, final Context ctx) {
         AlertDialog alert;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
         alertDialogBuilder.setMessage(msg).setCancelable(false)
@@ -1822,9 +1833,8 @@ public class Common {
 
     public static char getRandomCharacter() {
         Random r = new Random();
-        char c = (char) (r.nextInt(26) + 'a');
 
-        return c;
+        return (char) (r.nextInt(26) + 'a');
     }
 
     public static int pickColor(View view, int x, int y)
@@ -1833,13 +1843,13 @@ public class Common {
         int red = 0;
         int green = 0;
         int blue = 0;
-        int color = 0;
+        int color;
 
         int offset = 1; // 3x3 Matrix
         int pixelsNumber = 0;
 
-        int xImage = 0;
-        int yImage = 0;
+        int xImage;
+        int yImage;
 
 
         ImageView imageView = (ImageView) view;
@@ -1883,7 +1893,7 @@ public class Common {
         new DownloadFile(context, url, "", false).execute();
     }
 
-    public static void downloadRemoteFile(Context context, String url, String filename) {
+    public static void downloadRemoteFile(Context context, String url, @SuppressWarnings("SameParameterValue") String filename) {
         new DownloadFile(context, url, filename, true).execute();
     }
 
@@ -1893,10 +1903,13 @@ public class Common {
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = mContext.getContentResolver().query(targetUri, proj,
                 null, null, null);
+        assert cursor != null;
         int column_index = cursor
                 .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        return cursor.getString(column_index);
+        String path = cursor.getString(column_index);
+        cursor.close();
+        return path;
     }
 
     private void showNETWORDDisabledAlertToUser(final Context ctx) {
@@ -1943,14 +1956,14 @@ public class Common {
     }
 
 
-    public static void startCropImage(Context context, String path, int requestCode, int aspectX, int aspectY) {
+    public static void startCropImage(Context context, String path, @SuppressWarnings("SameParameterValue") int requestCode, @SuppressWarnings("SameParameterValue") int aspectX) {
 
         Intent intent = new Intent(context, CropImage.class);
         intent.putExtra(CropImage.IMAGE_PATH, path);
         intent.putExtra(CropImage.SCALE, true);
 
         intent.putExtra(CropImage.ASPECT_X, aspectX);
-        intent.putExtra(CropImage.ASPECT_Y, aspectY);
+        intent.putExtra(CropImage.ASPECT_Y, 1);
 
         ((Activity) context).startActivityForResult(intent, requestCode);
     }

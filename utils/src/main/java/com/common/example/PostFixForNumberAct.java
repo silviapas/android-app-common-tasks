@@ -14,10 +14,9 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class PostFixForNumberAct extends Activity {
-    Context mContext;
-    EditText et_FixNumber;
-    Button btn_FixNumber;
-    TextView tvFixNumber;
+    private Context mContext;
+    private EditText et_FixNumber;
+    private TextView tvFixNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class PostFixForNumberAct extends Activity {
 
         et_FixNumber = (EditText) findViewById(R.id.et_FixNumber);
 
-        btn_FixNumber = (Button) findViewById(R.id.btn_FixNumber);
+        Button btn_FixNumber = (Button) findViewById(R.id.btn_FixNumber);
 
         btn_FixNumber.setOnClickListener(new OnClickListener() {
 

@@ -53,11 +53,8 @@ import java.util.List;
 
 public class ContactActivity extends Activity {
 
-    // SocialAuth Components
-    List<Contact> contactList;
-
     // Variables
-    String provider_name;
+    private String provider_name;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -65,7 +62,7 @@ public class ContactActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact);
 
-        contactList = (ArrayList<Contact>) getIntent().getSerializableExtra("contact");
+        List<Contact> contactList = (ArrayList<Contact>) getIntent().getSerializableExtra("contact");
 
         provider_name = getIntent().getStringExtra("provider");
 
@@ -77,10 +74,10 @@ public class ContactActivity extends Activity {
     // adapter for contact list
     public class ContactAdapter extends ArrayAdapter<Contact> {
         private final LayoutInflater mInflater;
-        List<Contact> contacts;
-        ImageLoader imageLoader;
+        final List<Contact> contacts;
+        final ImageLoader imageLoader;
 
-        public ContactAdapter(Context context, int textViewResourceId, List<Contact> contacts) {
+        public ContactAdapter(Context context, @SuppressWarnings("SameParameterValue") int textViewResourceId, List<Contact> contacts) {
             super(context, textViewResourceId);
             mInflater = LayoutInflater.from(context);
             this.contacts = contacts;

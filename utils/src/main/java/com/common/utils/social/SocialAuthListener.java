@@ -39,12 +39,12 @@ public interface SocialAuthListener<T> {
      * @param provider provider name
      * @param t        return type
      */
-    public void onExecute(String provider, T t);
+    void onExecute(String provider, T t);
 
     /**
      * Called when a dialog has an error. Executed by the thread that initiated
      * the dialog.
      */
-    public void onError(SocialAuthError e);
+    void onError(SocialAuthError e);
 
 }

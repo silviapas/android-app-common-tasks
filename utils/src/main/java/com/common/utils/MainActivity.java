@@ -51,9 +51,7 @@ import com.common.example.VolumeActivity;
 
 public class MainActivity extends Activity {
 
-    Context mContext;
-    Activity mActivity;
-    ListView sdkFunctionalityList;
+    private Context mContext;
     private TextView tvText;
 
     @Override
@@ -61,7 +59,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
-        mActivity = MainActivity.this;
+        //Activity mActivity = MainActivity.this;
 
         tvText = (TextView) findViewById(R.id.text);
         String[] sdkFunctionalityListValue = new String[]{
@@ -115,7 +113,7 @@ public class MainActivity extends Activity {
                 "Remote file size or download file"/* 47 */
         };
 
-        sdkFunctionalityList = (ListView) findViewById(R.id.Md_list_company);
+        ListView sdkFunctionalityList = (ListView) findViewById(R.id.Md_list_company);
 
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, sdkFunctionalityListValue);
@@ -142,7 +140,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    protected void selectedListItem(int position) {
+    private void selectedListItem(int position) {
         Intent intent = null;
 
         switch (position) {

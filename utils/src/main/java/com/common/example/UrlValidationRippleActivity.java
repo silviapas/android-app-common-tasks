@@ -16,9 +16,8 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class UrlValidationRippleActivity extends Activity {
-    EditText etEmpty;
-    Button btnEmail;
-    Context mContext;
+    private EditText etEmpty;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public class UrlValidationRippleActivity extends Activity {
 
     private void init() {
         etEmpty = (EditText) findViewById(R.id.etValidation);
-        btnEmail = (Button) findViewById(R.id.btnEmail);
+        Button btnEmail = (Button) findViewById(R.id.btnEmail);
         btnEmail.setOnClickListener(new OnClickListener() {
 
             @Override

@@ -15,6 +15,7 @@
 
     <ImageView
         android:id="@+id/ivDownLoadImage"
+        android:contentDescription="download image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDefaultDownLoadImageUrl"
@@ -34,7 +35,6 @@
         android:id="@+id/tvDefaultDownLoadImageUrl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
         android:layout_below="@+id/tvDownLoadTitle"
         android:layout_margin="20dp"
         android:text="Image url : http://www.sbsmobile.com/siteimg/cat-menu/galaxyS5.png"

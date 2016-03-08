@@ -30,7 +30,14 @@ import java.util.List;
 
 public class CommonActivity extends Activity implements OnClickListener {
 
-    TextView text1, text2, text3, text4, text5, text6, text7, text8;
+    private TextView text1;
+    private TextView text2;
+    private TextView text3;
+    private TextView text4;
+    private TextView text5;
+    private TextView text6;
+    private TextView text7;
+    private TextView text8;
     private SocialAuthAdapter adapter;
     private int provider = 0;
     private ProgressDialog pDialog;
@@ -103,6 +110,7 @@ public class CommonActivity extends Activity implements OnClickListener {
         }
     }
 
+    @SuppressWarnings("UnusedAssignment")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -121,7 +129,7 @@ public class CommonActivity extends Activity implements OnClickListener {
                     StringBuilder sbSkills = new StringBuilder();
                     if (skillsArray != null && skillsArray.length() > 0) {
                         for (int i = 0; i < skillsArray.length(); i++) {
-                            sbSkills.append(skillsArray.getJSONObject(i).getJSONObject("skill").getString("name") + ",");
+                            sbSkills.append(skillsArray.getJSONObject(i).getJSONObject("skill").getString("name")).append(",");
                         }
                         personSkills = sbSkills.toString();
                         if (personSkills.length() > 0
@@ -140,8 +148,7 @@ public class CommonActivity extends Activity implements OnClickListener {
     private final class MessageListener implements SocialAuthListener<Integer> {
         @Override
         public void onExecute(String provider, Integer t) {
-            Integer status = t;
-            if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
+            if (t == 200 || t == 201 || t == 204)
                 Toast.makeText(CommonActivity.this, "Message posted on" + provider, Toast.LENGTH_LONG).show();
             else
                 Toast.makeText(CommonActivity.this, "Message not posted" + provider, Toast.LENGTH_LONG).show();
@@ -227,12 +234,11 @@ public class CommonActivity extends Activity implements OnClickListener {
 
             Log.d("Custom-UI", "Receiving Data");
 //            mDialog.dismiss();
-            List<Contact> contactsList = t;
 
-            if (contactsList != null && contactsList.size() > 0) {
+            if (t != null && t.size() > 0) {
                 Intent intent = new Intent(CommonActivity.this, ContactActivity.class);
                 intent.putExtra("provider", provider);
-                intent.putExtra("contact", (Serializable) contactsList);
+                intent.putExtra("contact", (Serializable) t);
                 startActivity(intent);
             } else {
                 Log.d("Custom-UI", "Contact List Empty");
@@ -253,11 +259,10 @@ public class CommonActivity extends Activity implements OnClickListener {
 
             Log.d("Custom-UI", "Receiving Data");
 //            mDialog.dismiss();
-            Profile profileMap = t;
 
             Intent intent = new Intent(CommonActivity.this, ProfileActivity.class);
             intent.putExtra("provider", provider);
-            intent.putExtra("profile", profileMap);
+            intent.putExtra("profile", t);
             startActivity(intent);
         }
 
@@ -273,9 +278,8 @@ public class CommonActivity extends Activity implements OnClickListener {
         @Override
         public void onExecute(String provider, Integer t) {
 //            mDialog.dismiss();
-            Integer status = t;
-            Log.d("Custom-UI", String.valueOf(status));
-            if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
+            Log.d("Custom-UI", String.valueOf(t));
+            if (t == 200 || t == 201 || t == 204)
                 Toast.makeText(CommonActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(CommonActivity.this, "Image not Uploaded", Toast.LENGTH_SHORT).show();

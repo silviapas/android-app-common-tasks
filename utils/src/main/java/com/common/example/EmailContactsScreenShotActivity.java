@@ -12,7 +12,6 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,9 +47,10 @@ public class EmailContactsScreenShotActivity extends Activity {
                         "/UtilsExample";
                 File dir = new File(file_path);
                 if (!dir.exists())
+                    //noinspection ResultOfMethodCallIgnored
                     dir.mkdirs();
                 File file = new File(dir, "ScreenShot" + Calendar.getInstance().getTime() + ".png");
-                FileOutputStream fOut = null;
+                FileOutputStream fOut;
                 progressDialog.dismiss();
                 try {
                     fOut = new FileOutputStream(file);
@@ -58,8 +58,6 @@ public class EmailContactsScreenShotActivity extends Activity {
                     fOut.flush();
                     fOut.close();
                     Common.showAlertDialog(EmailContactsScreenShotActivity.this, getString(R.string.app_name), "Screenshot saved in " + file.getPath(), false);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

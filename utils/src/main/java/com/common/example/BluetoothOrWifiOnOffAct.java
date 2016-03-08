@@ -17,9 +17,11 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class BluetoothOrWifiOnOffAct extends Activity {
-    Context mContext;
-    Button btnBluetoothOnOff, btnWifiOnOff;
-    Boolean isBluetooth = true, isWifi = true;
+    private Context mContext;
+    private Button btnBluetoothOnOff;
+    private Button btnWifiOnOff;
+    private Boolean isBluetooth = true;
+    private Boolean isWifi = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

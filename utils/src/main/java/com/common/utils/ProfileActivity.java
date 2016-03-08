@@ -48,28 +48,13 @@ public class ProfileActivity extends Activity {
 
     // SocialAuth Components
     SocialAuthAdapter adapter;
-    Profile profileMap;
-
-    // Android Components
-    TextView name;
-    TextView displayName;
-    TextView email;
-    TextView location;
-    TextView gender;
-    TextView language;
-    TextView country;
-    ImageView image;
-
-    // Variables
-    String provider_name;
-    ImageLoader imageLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
-        profileMap = (Profile) getIntent().getSerializableExtra("profile");
+        Profile profileMap = (Profile) getIntent().getSerializableExtra("profile");
         Log.d("Custom-UI", "Validate ID = " + profileMap.getValidatedId());
         Log.d("Custom-UI", "First Name  = " + profileMap.getFirstName());
         Log.d("Custom-UI", "Last Name   = " + profileMap.getLastName());
@@ -80,19 +65,19 @@ public class ProfileActivity extends Activity {
         Log.d("Custom-UI", "Location 	 = " + profileMap.getLocation());
         Log.d("Custom-UI", "Profile Image URL  = " + profileMap.getProfileImageURL());
 
-        provider_name = getIntent().getStringExtra("provider");
+        String provider_name = getIntent().getStringExtra("provider");
 
         // Set title
-        name = (TextView) findViewById(R.id.name);
-        displayName = (TextView) findViewById(R.id.displayName);
-        email = (TextView) findViewById(R.id.email);
-        location = (TextView) findViewById(R.id.location);
-        gender = (TextView) findViewById(R.id.gender);
-        language = (TextView) findViewById(R.id.language);
-        country = (TextView) findViewById(R.id.country);
-        image = (ImageView) findViewById(R.id.imgView);
+        TextView name = (TextView) findViewById(R.id.name);
+        TextView displayName = (TextView) findViewById(R.id.displayName);
+        TextView email = (TextView) findViewById(R.id.email);
+        TextView location = (TextView) findViewById(R.id.location);
+        TextView gender = (TextView) findViewById(R.id.gender);
+        TextView language = (TextView) findViewById(R.id.language);
+        TextView country = (TextView) findViewById(R.id.country);
+        ImageView image = (ImageView) findViewById(R.id.imgView);
 
-        imageLoader = new ImageLoader(ProfileActivity.this);
+        ImageLoader imageLoader = new ImageLoader(ProfileActivity.this);
 
         imageLoader.DisplayImage(profileMap.getProfileImageURL(), image);
 

@@ -38,14 +38,14 @@ abstract class ImageViewTouchBase extends ImageView {
     //
     // This matrix is recomputed when we go from the thumbnail image to
     // the full size image.
-    protected Matrix mBaseMatrix = new Matrix();
+    private final Matrix mBaseMatrix = new Matrix();
 
     // This is the supplementary transformation which reflects what
     // the user has done in terms of zooming and panning.
     //
     // This matrix remains the same when we go from the thumbnail image
     // to the full size image.
-    protected Matrix mSuppMatrix = new Matrix();
+    private final Matrix mSuppMatrix = new Matrix();
 
     // This is the final matrix which is computed as the concatentation
     // of the base matrix and the supplementary matrix.
@@ -55,11 +55,12 @@ abstract class ImageViewTouchBase extends ImageView {
     private final float[] mMatrixValues = new float[9];
 
     // The current bitmap being displayed.
-    final protected RotateBitmap mBitmapDisplayed = new RotateBitmap(null);
+    final RotateBitmap mBitmapDisplayed = new RotateBitmap(null);
 
-    int mThisWidth = -1, mThisHeight = -1;
+    private int mThisWidth = -1;
+    private int mThisHeight = -1;
 
-    float mMaxZoom;
+    private float mMaxZoom;
 
     int mLeft;
 
@@ -73,7 +74,7 @@ abstract class ImageViewTouchBase extends ImageView {
     // its use of that Bitmap.
     public interface Recycler {
 
-        public void recycle(Bitmap b);
+        void recycle(Bitmap b);
     }
 
     public void setRecycler(Recycler r) {
@@ -117,7 +118,7 @@ abstract class ImageViewTouchBase extends ImageView {
         return super.onKeyDown(keyCode, event);
     }
 
-    protected Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     @Override
     public void setImageBitmap(Bitmap bitmap) {
@@ -152,7 +153,7 @@ abstract class ImageViewTouchBase extends ImageView {
     // This function changes bitmap, reset base matrix according to the size
     // of the bitmap, and optionally reset the supplementary matrix.
     public void setImageBitmapResetBase(final Bitmap bitmap,
-                                        final boolean resetSupp) {
+                                        @SuppressWarnings("SameParameterValue") final boolean resetSupp) {
 
         setImageRotateBitmapResetBase(new RotateBitmap(bitmap), resetSupp);
     }
@@ -192,7 +193,7 @@ abstract class ImageViewTouchBase extends ImageView {
     // view's dimensions then center it (literally).  If the image
     // is scaled larger than the view and is translated out of view
     // then translate it back into view (i.e. eliminate black bars).
-    protected void center(boolean horizontal, boolean vertical) {
+    void center(@SuppressWarnings("SameParameterValue") boolean horizontal, @SuppressWarnings("SameParameterValue") boolean vertical) {
 
         if (mBitmapDisplayed.getBitmap() == null) {
             return;
@@ -254,19 +255,19 @@ abstract class ImageViewTouchBase extends ImageView {
         setScaleType(ScaleType.MATRIX);
     }
 
-    protected float getValue(Matrix matrix, int whichValue) {
+    private float getValue(Matrix matrix, @SuppressWarnings("SameParameterValue") int whichValue) {
 
         matrix.getValues(mMatrixValues);
         return mMatrixValues[whichValue];
     }
 
     // Get the scale factor out of the matrix.
-    protected float getScale(Matrix matrix) {
+    private float getScale(Matrix matrix) {
 
         return getValue(matrix, Matrix.MSCALE_X);
     }
 
-    protected float getScale() {
+    float getScale() {
 
         return getScale(mSuppMatrix);
     }
@@ -279,7 +280,6 @@ abstract class ImageViewTouchBase extends ImageView {
 
         float w = bitmap.getWidth();
         float h = bitmap.getHeight();
-        int rotation = bitmap.getRotation();
         matrix.reset();
 
         // We limit up-scaling to 2x otherwise the result may look bad if it's
@@ -297,7 +297,7 @@ abstract class ImageViewTouchBase extends ImageView {
     }
 
     // Combine the base matrix and the supp matrix to make the final matrix.
-    protected Matrix getImageViewMatrix() {
+    private Matrix getImageViewMatrix() {
         // The final matrix is computed as the concatentation of the base matrix
         // and the supplementary matrix.
         mDisplayMatrix.set(mBaseMatrix);
@@ -305,13 +305,13 @@ abstract class ImageViewTouchBase extends ImageView {
         return mDisplayMatrix;
     }
 
-    static final float SCALE_RATE = 1.25F;
+    private static final float SCALE_RATE = 1.25F;
 
     // Sets the maximum zoom, which is a scale relative to the base matrix. It
     // is calculated to show the image at 400% zoom regardless of screen or
     // image orientation. If in the future we decode the full 3 megapixel image,
     // rather than the current 1024x768, this should be changed down to 200%.
-    protected float maxZoom() {
+    private float maxZoom() {
 
         if (mBitmapDisplayed.getBitmap() == null) {
             return 1F;
@@ -319,11 +319,10 @@ abstract class ImageViewTouchBase extends ImageView {
 
         float fw = (float) mBitmapDisplayed.getWidth() / (float) mThisWidth;
         float fh = (float) mBitmapDisplayed.getHeight() / (float) mThisHeight;
-        float max = Math.max(fw, fh) * 4;
-        return max;
+        return Math.max(fw, fh) * 4;
     }
 
-    protected void zoomTo(float scale, float centerX, float centerY) {
+    void zoomTo(float scale, float centerX, float centerY) {
 
         if (scale > mMaxZoom) {
             scale = mMaxZoom;
@@ -337,8 +336,8 @@ abstract class ImageViewTouchBase extends ImageView {
         center(true, true);
     }
 
-    protected void zoomTo(final float scale, final float centerX,
-                          final float centerY, final float durationMs) {
+    void zoomTo(final float scale, final float centerX,
+                final float centerY, @SuppressWarnings("SameParameterValue") final float durationMs) {
 
         final float incrementPerMs = (scale - getScale()) / durationMs;
         final float oldScale = getScale();
@@ -359,7 +358,7 @@ abstract class ImageViewTouchBase extends ImageView {
         });
     }
 
-    protected void zoomTo(float scale) {
+    private void zoomTo(@SuppressWarnings("SameParameterValue") float scale) {
 
         float cx = getWidth() / 2F;
         float cy = getHeight() / 2F;
@@ -367,17 +366,17 @@ abstract class ImageViewTouchBase extends ImageView {
         zoomTo(scale, cx, cy);
     }
 
-    protected void zoomIn() {
+    void zoomIn() {
 
         zoomIn(SCALE_RATE);
     }
 
-    protected void zoomOut() {
+    void zoomOut() {
 
         zoomOut(SCALE_RATE);
     }
 
-    protected void zoomIn(float rate) {
+    private void zoomIn(@SuppressWarnings("SameParameterValue") float rate) {
 
         if (getScale() >= mMaxZoom) {
             return;     // Don't let the user zoom into the molecular level.
@@ -393,7 +392,7 @@ abstract class ImageViewTouchBase extends ImageView {
         setImageMatrix(getImageViewMatrix());
     }
 
-    protected void zoomOut(float rate) {
+    private void zoomOut(@SuppressWarnings("SameParameterValue") float rate) {
 
         if (mBitmapDisplayed.getBitmap() == null) {
             return;
@@ -415,12 +414,12 @@ abstract class ImageViewTouchBase extends ImageView {
         center(true, true);
     }
 
-    protected void postTranslate(float dx, float dy) {
+    void postTranslate(float dx, float dy) {
 
         mSuppMatrix.postTranslate(dx, dy);
     }
 
-    protected void panBy(float dx, float dy) {
+    void panBy(float dx, float dy) {
 
         postTranslate(dx, dy);
         setImageMatrix(getImageViewMatrix());

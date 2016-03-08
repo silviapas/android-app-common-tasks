@@ -20,6 +20,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
+        android:contentDescription="abc image"
         android:src="@drawable/abc" />
 
     <TextView
@@ -30,6 +31,7 @@
 
     <ImageView
         android:id="@+id/rounded_bitmap_iv_image"
+        android:contentDescription="rounded image"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"

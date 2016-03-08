@@ -17,9 +17,9 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class GetCurrentLocationAct extends Activity {
-    Context mContext;
-    TextView tvLatitude, tvLongitude;
-    Button btnLocation;
+    private Context mContext;
+    private TextView tvLatitude;
+    private TextView tvLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class GetCurrentLocationAct extends Activity {
         tvLongitude = (TextView) findViewById(R.id.tvLongitude);
 
 
-        btnLocation = (Button) findViewById(R.id.btnLocation);
+        Button btnLocation = (Button) findViewById(R.id.btnLocation);
         btnLocation.setOnClickListener(new OnClickListener() {
 
             @Override

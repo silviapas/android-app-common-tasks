@@ -16,9 +16,8 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class OpenUrlINBrowserAct extends Activity {
-    Context mContext;
-    EditText et_Url;
-    Button btnOpenUrl;
+    private Context mContext;
+    private EditText et_Url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class OpenUrlINBrowserAct extends Activity {
     private void init() {
 
         et_Url = (EditText) findViewById(R.id.et_Url);
-        btnOpenUrl = (Button) findViewById(R.id.btnOpenUrl);
+        Button btnOpenUrl = (Button) findViewById(R.id.btnOpenUrl);
 
         btnOpenUrl.setOnClickListener(new OnClickListener() {
 

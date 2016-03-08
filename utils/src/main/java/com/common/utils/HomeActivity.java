@@ -10,22 +10,19 @@ import android.widget.TextView;
 
 public class HomeActivity extends Activity {
 
-    Context mContext;
-    Activity mActivity;
+    private Context mContext;
     ListView sdkFunctionalityList;
-    TextView txtDemo, txtCodeSnip;
-    private TextView txtMaterialLibrary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mContext = HomeActivity.this;
-        mActivity = HomeActivity.this;
+        //Activity mActivity = HomeActivity.this;
 
-        txtDemo = (TextView) findViewById(R.id.txtDemo);
-        txtCodeSnip = (TextView) findViewById(R.id.txtCodeSnip);
-        txtMaterialLibrary = (TextView) findViewById(R.id.txtMaterialLibrary);
+        TextView txtDemo = (TextView) findViewById(R.id.txtDemo);
+        TextView txtCodeSnip = (TextView) findViewById(R.id.txtCodeSnip);
+        TextView txtMaterialLibrary = (TextView) findViewById(R.id.txtMaterialLibrary);
 
         txtDemo.setOnClickListener(new View.OnClickListener() {
             @Override

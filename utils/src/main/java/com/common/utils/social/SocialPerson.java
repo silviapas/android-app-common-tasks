@@ -20,15 +20,15 @@ public class SocialPerson implements Parcelable {
         }
     };
 
-    public String id;
-    public String name;
-    public String company;
-    public String position;
-    public String avatarURL;
+    private String id;
+    private String name;
+    private String company;
+    private String position;
+    private String avatarURL;
 
-    public String profileURL; // url to users profile, can be generated for twitter, facebook, but need to get via api from LinkedIn
-    public String nickname;
-    public String skills;
+    private String profileURL; // url to users profile, can be generated for twitter, facebook, but need to get via api from LinkedIn
+    private String nickname;
+    private String skills;
 
     public List<Person> personList;
 
@@ -71,21 +71,23 @@ public class SocialPerson implements Parcelable {
 
         SocialPerson that = (SocialPerson) o;
 
-        if (avatarURL != null ? !avatarURL.equals(that.avatarURL) : that.avatarURL != null)
-            return false;
-        if (company != null ? !company.equals(that.company) : that.company != null) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null)
-            return false;
-        if (position != null ? !position.equals(that.position) : that.position != null)
-            return false;
-        if (profileURL != null ? !profileURL.equals(that.profileURL) : that.profileURL != null)
-            return false;
-        if (skills != null ? !skills.equals(that.skills) : that.skills != null)
-            return false;
-
-        return true;
+        return avatarURL != null
+                ? avatarURL.equals(that.avatarURL)
+                : that.avatarURL == null && (company != null
+                    ? company.equals(that.company)
+                    : that.company == null && (id != null
+                        ? id.equals(that.id)
+                        : that.id == null && (name != null
+                            ? name.equals(that.name)
+                            : that.name == null && (nickname != null
+                                ? nickname.equals(that.nickname)
+                                : that.nickname == null && (position != null
+                                    ? position.equals(that.position)
+                                    : that.position == null && (profileURL != null
+                                        ? profileURL.equals(that.profileURL)
+                                        : that.profileURL == null && (skills != null
+                                            ? skills.equals(that.skills)
+                                            : that.skills == null)))))));
     }
 
     @Override

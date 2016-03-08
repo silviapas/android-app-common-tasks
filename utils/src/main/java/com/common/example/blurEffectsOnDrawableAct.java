@@ -6,15 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.common.utils.Common;
 import com.common.utils.R;
 
 public class blurEffectsOnDrawableAct extends Activity {
-    Context mContext;
-    ImageView ivBlurImage;
-    Button btnCreateBlurImage;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +24,9 @@ public class blurEffectsOnDrawableAct extends Activity {
     }
 
     private void init() {
-        ivBlurImage = (ImageView) findViewById(R.id.ivBlurImage);
+        //ImageView ivBlurImage = (ImageView) findViewById(R.id.ivBlurImage);
 
-        btnCreateBlurImage = (Button) findViewById(R.id.btnCreateBlurImage);
+        Button btnCreateBlurImage = (Button) findViewById(R.id.btnCreateBlurImage);
         btnCreateBlurImage.setOnClickListener(new OnClickListener() {
 
             @Override

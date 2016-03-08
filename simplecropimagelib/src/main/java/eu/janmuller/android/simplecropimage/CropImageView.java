@@ -8,14 +8,15 @@ import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
-class CropImageView extends ImageViewTouchBase {
+public class CropImageView extends ImageViewTouchBase {
 
-    ArrayList<HighlightView> mHighlightViews      = new ArrayList<HighlightView>();
-    HighlightView            mMotionHighlightView = null;
-    float mLastX, mLastY;
-    int mMotionEdge;
+    final ArrayList<HighlightView> mHighlightViews      = new ArrayList<>();
+    private HighlightView            mMotionHighlightView = null;
+    private float mLastX;
+    private float mLastY;
+    private int mMotionEdge;
 
-    private Context mContext;
+    private final Context mContext;
 
     @Override
     protected void onLayout(boolean changed, int left, int top,
@@ -168,14 +169,12 @@ class CropImageView extends ImageViewTouchBase {
                     mLastX = event.getX();
                     mLastY = event.getY();
 
-                    if (true) {
-                        // This section of code is optional. It has some user
-                        // benefit in that moving the crop rectangle against
-                        // the edge of the screen causes scrolling but it means
-                        // that the crop rectangle is no longer fixed under
-                        // the user's finger.
-                        ensureVisible(mMotionHighlightView);
-                    }
+                    // This section of code is optional. It has some user
+                    // benefit in that moving the crop rectangle against
+                    // the edge of the screen causes scrolling but it means
+                    // that the crop rectangle is no longer fixed under
+                    // the user's finger.
+                    ensureVisible(mMotionHighlightView);
                 }
                 break;
         }

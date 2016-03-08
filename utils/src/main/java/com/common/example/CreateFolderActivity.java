@@ -12,8 +12,7 @@ import com.common.utils.R;
 
 public class CreateFolderActivity extends Activity {
 
-    EditText et_Url;
-    Button btnOpenUrl;
+    private EditText et_Url;
     private CreateFolderActivity mContext;
 
     @Override
@@ -27,7 +26,7 @@ public class CreateFolderActivity extends Activity {
     private void init() {
 
         et_Url = (EditText) findViewById(R.id.et_address);
-        btnOpenUrl = (Button) findViewById(R.id.btnOpenMap);
+        Button btnOpenUrl = (Button) findViewById(R.id.btnOpenMap);
 
         btnOpenUrl.setOnClickListener(new View.OnClickListener() {
 

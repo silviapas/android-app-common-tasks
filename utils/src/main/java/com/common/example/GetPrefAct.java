@@ -18,11 +18,12 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class GetPrefAct extends Activity {
-    Context mContext;
-    CheckBox cb_GetBoolean;
-    EditText et_GetStringPref, et_GetIntegerPref, et_GetLongPref,
-            et_GetFloatPref;
-    Button btn_GetPref, btn_RemoveAllPref;
+    private Context mContext;
+    private CheckBox cb_GetBoolean;
+    private EditText et_GetStringPref;
+    private EditText et_GetIntegerPref;
+    private EditText et_GetLongPref;
+    private EditText et_GetFloatPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class GetPrefAct extends Activity {
         et_GetLongPref = (EditText) findViewById(R.id.et_GetLongPref);
         et_GetFloatPref = (EditText) findViewById(R.id.et_GetFloatPref);
 
-        btn_GetPref = (Button) findViewById(R.id.btn_GetPref);
+        Button btn_GetPref = (Button) findViewById(R.id.btn_GetPref);
 
         btn_GetPref.setOnClickListener(new OnClickListener() {
 
@@ -79,7 +80,7 @@ public class GetPrefAct extends Activity {
             }
         });
 
-        btn_RemoveAllPref = (Button) findViewById(R.id.btn_RemoveAllPref);
+        Button btn_RemoveAllPref = (Button) findViewById(R.id.btn_RemoveAllPref);
         btn_RemoveAllPref.setOnClickListener(new OnClickListener() {
 
             @Override

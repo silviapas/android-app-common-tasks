@@ -6,27 +6,26 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 @SuppressLint({"NewApi", "FloatMath"})
-public class PinchZoom implements OnTouchListener {
+class PinchZoom implements OnTouchListener {
 
     // We can be in one of these 3 states
-    static final int NONE = 0;
-    int mode = NONE;
-    static final int DRAG = 1;
-    static final int ZOOM = 2;
+    private static final int NONE = 0;
+    private int mode = NONE;
+    private static final int DRAG = 1;
+    private static final int ZOOM = 2;
     // These matrices will be used to move and zoom image
-    Matrix matrix = new Matrix();
-    Matrix savedMatrix = new Matrix();
+    private final Matrix matrix = new Matrix();
+    private final Matrix savedMatrix = new Matrix();
     // Remember some things for zooming
-    PointF start = new PointF();
-    PointF mid = new PointF();
-    float oldDist = 1f;
+    private final PointF start = new PointF();
+    private final PointF mid = new PointF();
+    private float oldDist = 1f;
     int r = 0;
     @SuppressWarnings("unused")
     private float y = 0;
@@ -88,6 +87,7 @@ public class PinchZoom implements OnTouchListener {
         float[] savedValue = new float[9];
         savedMatrix.getValues(savedValue);
 
+        /* UNUSED
         int width = getWidth();
         int height = getHeight();
 
@@ -118,16 +118,20 @@ public class PinchZoom implements OnTouchListener {
 
         matrix.setValues(value);
         savedMatrix.set(matrix);
+        */
     }
 
+    @SuppressWarnings("SameReturnValue")
     private Drawable getDrawable() {
         return null;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private int getHeight() {
         return 0;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private int getWidth() {
         return 0;
     }
@@ -141,7 +145,7 @@ public class PinchZoom implements OnTouchListener {
     private void dumpEvent(MotionEvent event) {
         String names[] = {"DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE",
                 "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?"};
-        StringBuilder sb = new StringBuilder();
+        @SuppressWarnings("MismatchedQueryAndUpdateOfStringBuilder") StringBuilder sb = new StringBuilder();
         int action = event.getAction();
         int actionCode = action & MotionEvent.ACTION_MASK;
         sb.append("event ACTION_").append(names[actionCode]);
@@ -169,7 +173,7 @@ public class PinchZoom implements OnTouchListener {
     private float spacing(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
-        return FloatMath.sqrt(x * x + y * y);
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     /**

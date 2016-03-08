@@ -12,9 +12,9 @@ import com.common.utils.R;
 public class DateDifferenceActivity extends Activity {
 
 
-    TextView tvDate1;
-    TextView tvDate2;
-    TextView tvDifference;
+    private TextView tvDate1;
+    private TextView tvDate2;
+    private TextView tvDifference;
     private DateDifferenceActivity mContext;
 
     @Override

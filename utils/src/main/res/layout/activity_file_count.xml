@@ -72,7 +72,6 @@
             android:id="@+id/jpg_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_address"
             android:checked="true"
             android:padding="10dp"
             android:text="Jpg" />
@@ -81,7 +80,6 @@
             android:id="@+id/mp3_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_address"
             android:padding="10dp"
             android:text="Mp3" />
 
@@ -89,7 +87,6 @@
             android:id="@+id/pdf_radioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_address"
             android:padding="10dp"
             android:text="pdf" />
 

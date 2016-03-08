@@ -1,11 +1,7 @@
 package com.common.utils.social;
 
-public class AccessToken {
-    public String token;
-    public String secret;
+class AccessToken {
 
-    public AccessToken(String token, String secret) {
-        this.token = token;
-        this.secret = secret;
+    public AccessToken(@SuppressWarnings("UnusedParameters") String token, @SuppressWarnings("UnusedParameters") String secret) {
     }
 }

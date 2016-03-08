@@ -18,7 +18,11 @@ package eu.janmuller.android.simplecropimage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.view.Surface;
 
@@ -201,7 +205,7 @@ public class Util {
     }
 
     public static void startBackgroundJob(MonitoredActivity activity,
-                                          String title, String message, Runnable job, Handler handler) {
+                                          @SuppressWarnings("SameParameterValue") String title, String message, Runnable job, Handler handler) {
         // Make the progress dialog uncancelable, so that we can gurantee
         // the thread will be done before the activity getting destroyed.
         ProgressDialog dialog = ProgressDialog.show(
@@ -213,9 +217,8 @@ public class Util {
     // Returns Options that set the puregeable flag for Bitmap decode.
     public static BitmapFactory.Options createNativeAllocOptions() {
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
         //options.inNativeAlloc = true;
-        return options;
+        return new BitmapFactory.Options();
     }
 
     // Thong added for rotate
@@ -224,8 +227,7 @@ public class Util {
         Matrix matrix = new Matrix();
         // setup rotation degree
         matrix.postRotate(degree);
-        Bitmap bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-        return bmp;
+        return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
     }
 
     public static int getOrientationInDegree(Activity activity) {

@@ -1,6 +1,5 @@
 package com.common.example;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -17,15 +16,13 @@ import java.io.File;
 
 public class FileCountActivity extends ActionBarActivity {
 
-    EditText et_Url;
-    Button btnOpenUrl;
-    private Context mContext;
+    private EditText et_Url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_count);
-        mContext = FileCountActivity.this;
+        //Context mContext = FileCountActivity.this;
         init();
 
     }
@@ -34,7 +31,7 @@ public class FileCountActivity extends ActionBarActivity {
         ((TextView) findViewById(R.id.textView1)).setText("Default folder is : " + Environment.getExternalStorageDirectory().getPath() + "/");
         ((TextView) findViewById(R.id.tv_address)).setText(Environment.getExternalStorageDirectory().getPath() + "/");
         et_Url = (EditText) findViewById(R.id.et_address);
-        btnOpenUrl = (Button) findViewById(R.id.btnOpenMap);
+        Button btnOpenUrl = (Button) findViewById(R.id.btnOpenMap);
 
         btnOpenUrl.setOnClickListener(new View.OnClickListener() {
 
@@ -74,7 +71,7 @@ public class FileCountActivity extends ActionBarActivity {
     }
 
 
-    void fileCount(String folderName, String fileExtension) {
+    private void fileCount(String folderName, String fileExtension) {
 
         Common.showAlertDialog(this, getString(R.string.app_name), "Total " + Common.getFileCounts(fileExtension, folderName) + " " + fileExtension + " file's", false);
 

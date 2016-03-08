@@ -34,9 +34,9 @@ import java.io.File;
  * @author Vineet Aggarwal
  */
 
-public class FileCache {
+class FileCache {
 
-    private File cacheDir;
+    private final File cacheDir;
 
     public FileCache(Context context) {
         // Find the dir to save cached images
@@ -46,13 +46,13 @@ public class FileCache {
             cacheDir = context.getCacheDir();
 
         if (!cacheDir.exists())
+            //noinspection ResultOfMethodCallIgnored
             cacheDir.mkdirs();
     }
 
     public File getFile(String url) {
         String filename = String.valueOf(url.hashCode());
-        File f = new File(cacheDir, filename);
-        return f;
+        return new File(cacheDir, filename);
 
     }
 
@@ -61,6 +61,7 @@ public class FileCache {
         if (files == null)
             return;
         for (File f : files)
+            //noinspection ResultOfMethodCallIgnored
             f.delete();
     }
 

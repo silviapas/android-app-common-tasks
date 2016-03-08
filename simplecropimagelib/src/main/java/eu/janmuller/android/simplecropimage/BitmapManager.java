@@ -43,7 +43,7 @@ public class BitmapManager {
 
     private static final String TAG = "BitmapManager";
 
-    private static enum State {CANCEL, ALLOW}
+    private enum State {CANCEL, ALLOW}
 
     private static class ThreadStatus {
 
@@ -69,7 +69,7 @@ public class BitmapManager {
     public static class ThreadSet implements Iterable<Thread> {
 
         private final WeakHashMap<Thread, Object> mWeakCollection =
-                new WeakHashMap<Thread, Object>();
+                new WeakHashMap<>();
 
         public void add(Thread t) {
 
@@ -88,7 +88,7 @@ public class BitmapManager {
     }
 
     private final WeakHashMap<Thread, ThreadStatus> mThreadStatus =
-            new WeakHashMap<Thread, ThreadStatus>();
+            new WeakHashMap<>();
 
     private static BitmapManager sManager = null;
 
@@ -125,7 +125,7 @@ public class BitmapManager {
         return status != null ? status.mOptions : null;
     }
 
-    synchronized void removeDecodingOptions(Thread t) {
+    private synchronized void removeDecodingOptions(Thread t) {
 
         ThreadStatus status = mThreadStatus.get(t);
         status.mOptions = null;
@@ -153,23 +153,20 @@ public class BitmapManager {
      * The following three methods are used to keep track of which thread
      * is being disabled for bitmap decoding.
      */
-    public synchronized boolean canThreadDecoding(Thread t) {
+    private synchronized boolean canThreadDecoding(Thread t) {
 
         ThreadStatus status = mThreadStatus.get(t);
-        if (status == null) {
-            // allow decoding by default
-            return true;
-        }
+        // allow decoding by default
+        return status == null || (status.mState != State.CANCEL);
 
-        return (status.mState != State.CANCEL);
     }
 
-    public synchronized void allowThreadDecoding(Thread t) {
+    private synchronized void allowThreadDecoding(Thread t) {
 
         getOrCreateThreadStatus(t).mState = State.ALLOW;
     }
 
-    public synchronized void cancelThreadDecoding(Thread t) {
+    private synchronized void cancelThreadDecoding(Thread t) {
 
         ThreadStatus status = getOrCreateThreadStatus(t);
         status.mState = State.CANCEL;
@@ -186,11 +183,7 @@ public class BitmapManager {
      */
     public synchronized void dump() {
 
-        Iterator<Map.Entry<Thread, ThreadStatus>> i =
-                mThreadStatus.entrySet().iterator();
-
-        while (i.hasNext()) {
-            Map.Entry<Thread, ThreadStatus> entry = i.next();
+        for (Map.Entry<Thread, ThreadStatus> entry : mThreadStatus.entrySet()) {
             Log.v(TAG, "[Dump] Thread " + entry.getKey() + " ("
                     + entry.getKey().getId()
                     + ")'s status is " + entry.getValue());

@@ -19,7 +19,7 @@ package eu.janmuller.android.simplecropimage;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
-public class RotateBitmap {
+class RotateBitmap {
 
     public static final String TAG = "RotateBitmap";
     private Bitmap mBitmap;
@@ -73,7 +73,7 @@ public class RotateBitmap {
         return matrix;
     }
 
-    public boolean isOrientationChanged() {
+    private boolean isOrientationChanged() {
 
         return (mRotation / 90) % 2 != 0;
     }

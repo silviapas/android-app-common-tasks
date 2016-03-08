@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 
+@SuppressWarnings("UnusedAssignment")
 public class GetContacts extends Activity {
     /**
      * Called when the activity is first created.
@@ -26,6 +27,7 @@ public class GetContacts extends Activity {
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null, null);
 
+        assert cur != null;
         if (cur.getCount() > 0) {
             while (cur.moveToNext()) {
                 String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
@@ -37,6 +39,7 @@ public class GetContacts extends Activity {
                     Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                             new String[]{id}, null);
+                    assert pCur != null;
                     while (pCur.moveToNext()) {
                         String phone = pCur.getString(
                                 pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
@@ -52,6 +55,7 @@ public class GetContacts extends Activity {
                             null,
                             ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                             new String[]{id}, null);
+                    assert emailCur != null;
                     while (emailCur.moveToNext()) {
                         // This would allow you get several email addresses
                         // if the email addresses were stored in an array
@@ -69,6 +73,7 @@ public class GetContacts extends Activity {
                     String[] noteWhereParams = new String[]{id,
                             ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE};
                     Cursor noteCur = cr.query(ContactsContract.Data.CONTENT_URI, null, noteWhere, noteWhereParams, null);
+                    assert noteCur != null;
                     if (noteCur.moveToFirst()) {
                         String note = noteCur.getString(noteCur.getColumnIndex(ContactsContract.CommonDataKinds.Note.NOTE));
                         System.out.println("Note " + note);
@@ -78,10 +83,11 @@ public class GetContacts extends Activity {
                     //Get Postal Address....
 
                     String addrWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-                    String[] addrWhereParams = new String[]{id,
+                    @SuppressWarnings("MismatchedReadAndWriteOfArray") String[] addrWhereParams = new String[]{id,
                             ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE};
                     Cursor addrCur = cr.query(ContactsContract.Data.CONTENT_URI,
                             null, null, null, null);
+                    assert addrCur != null;
                     while (addrCur.moveToNext()) {
                         String poBox = addrCur.getString(
                                 addrCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.POBOX));
@@ -109,6 +115,7 @@ public class GetContacts extends Activity {
                             ContactsContract.CommonDataKinds.Im.CONTENT_ITEM_TYPE};
                     Cursor imCur = cr.query(ContactsContract.Data.CONTENT_URI,
                             null, imWhere, imWhereParams, null);
+                    assert imCur != null;
                     if (imCur.moveToFirst()) {
                         String imName = imCur.getString(
                                 imCur.getColumnIndex(ContactsContract.CommonDataKinds.Im.DATA));
@@ -125,6 +132,7 @@ public class GetContacts extends Activity {
                             ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
                     Cursor orgCur = cr.query(ContactsContract.Data.CONTENT_URI,
                             null, orgWhere, orgWhereParams, null);
+                    assert orgCur != null;
                     if (orgCur.moveToFirst()) {
                         String orgName = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DATA));
                         String title = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.TITLE));
@@ -133,6 +141,7 @@ public class GetContacts extends Activity {
                 }
             }
         }
+        cur.close();
     }
 
 }

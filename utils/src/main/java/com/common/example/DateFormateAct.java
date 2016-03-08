@@ -5,7 +5,6 @@ package com.common.example;
  */
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,15 +15,17 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class DateFormateAct extends Activity {
-    Context mContext;
-    TextView date1, date2, date3, date4, date5;
-    Button btnShowDate;
+    private TextView date1;
+    private TextView date2;
+    private TextView date3;
+    private TextView date4;
+    private TextView date5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_format_act);
-        mContext = DateFormateAct.this;
+        //Context mContext = DateFormateAct.this;
         init();
 
     }
@@ -37,7 +38,7 @@ public class DateFormateAct extends Activity {
         date4 = (TextView) findViewById(R.id.tvDateFormate_yyyyMMddHHmmssSSSZ);
         date5 = (TextView) findViewById(R.id.tvDateFormate_yyyyMMddTHHmmssSSSZ);
 
-        btnShowDate = (Button) findViewById(R.id.btnShowDate);
+        Button btnShowDate = (Button) findViewById(R.id.btnShowDate);
         btnShowDate.setOnClickListener(new OnClickListener() {
 
             @Override
