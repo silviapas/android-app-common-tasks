@@ -13,6 +13,13 @@
             <option value="$PROJECT_DIR$/utils" />
           </set>
         </option>
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/simplecropimagelib" />
+            <option value="$PROJECT_DIR$/utils" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>
