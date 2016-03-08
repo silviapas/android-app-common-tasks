@@ -406,8 +406,9 @@ public class TouchImageView extends ImageView {
      */
     private void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();
-        assert center != null;
-        setZoom(img.getCurrentZoom(), center.x, center.y, img.getScaleType());
+        if (center != null) {
+            setZoom(img.getCurrentZoom(), center.x, center.y, img.getScaleType());
+        }
     }
 
     /**

@@ -6,5 +6,7 @@
     <string name="preparing_card">Připravuji kartu</string>
     <string name="no_storage_card">Žádná SD karta</string>
     <string name="not_enough_space">Na SD kartě není dostatek místa</string>
+    <string name="rotate_left">Odbočit vlevo</string>
+    <string name="rotate_right">Otočit doprava</string>
 
 </resources>

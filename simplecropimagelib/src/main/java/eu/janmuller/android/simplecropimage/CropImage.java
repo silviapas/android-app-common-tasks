@@ -17,6 +17,7 @@
 package eu.janmuller.android.simplecropimage;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -47,6 +48,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
 
@@ -96,6 +98,7 @@ public class CropImage extends MonitoredActivity {
     private final BitmapManager.ThreadSet mDecodingThreads =
             new BitmapManager.ThreadSet();
 
+    @SuppressLint("InlinedApi")
     @Override
     public void onCreate(Bundle icicle) {
 
@@ -126,7 +129,7 @@ public class CropImage extends MonitoredActivity {
 
             mImagePath = extras.getString(IMAGE_PATH);
             assert mImagePath != null;
-            String extension = mImagePath.substring(mImagePath.lastIndexOf(".")+1).toLowerCase();
+            String extension = mImagePath.substring(mImagePath.lastIndexOf(".")+1).toLowerCase(Locale.getDefault());
             if (extension.equals("jpg") || extension.equals("jpeg")) {
                 mOutputFormat = Bitmap.CompressFormat.JPEG;
             } else if (extension.equals("png")) {

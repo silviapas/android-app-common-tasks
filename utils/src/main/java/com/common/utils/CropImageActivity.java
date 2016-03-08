@@ -132,9 +132,9 @@ public class CropImageActivity extends Activity {
                     FileOutputStream fileOutputStream = new FileOutputStream(mFileTemp);
                     copyStream(inputStream, fileOutputStream);
                     fileOutputStream.close();
-                    assert inputStream != null;
-                    inputStream.close();
-
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
                     startCropImage();
 
                 } catch (Exception e) {

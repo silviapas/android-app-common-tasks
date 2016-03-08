@@ -38,7 +38,7 @@
                 android:layout_toRightOf="@id/discard"
                 android:layout_toEndOf="@id/discard"
                 style="@style/CropButton"
-                android:contentDescription="rotate left"
+		android:contentDescription="@string/rotate_left"
                 android:src="@drawable/ic_rotate_left"
                 />
 
@@ -49,7 +49,7 @@
                 android:layout_toRightOf="@id/rotateLeft"
                 android:layout_toEndOf="@id/rotateLeft"
                 style="@style/CropButton"
-                android:contentDescription="rotate right"
+		android:contentDescription="@string/rotate_right"
                 android:src="@drawable/ic_rotate_right"
                 />
         <Button

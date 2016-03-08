@@ -55,6 +55,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.service.textservice.SpellCheckerService.Session;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -345,9 +346,13 @@ public class Common {
      * @return your device id
      */
     public static String getDeviceId(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getDeviceId();
+        int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            TelephonyManager telephonyManager = (TelephonyManager) context
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            return telephonyManager.getDeviceId();
+        }
+        return "<missing: READ_PHONE_STATE>";
     }
 
     // ------------------------------
@@ -928,9 +933,7 @@ public class Common {
             sb.append(s).append(",");
             strValue = sb.toString();
         }
-
-        assert strValue != null;
-        if (strValue.length() > 0
+        if (strValue != null && strValue.length() > 0
                 && strValue.charAt(strValue.length() - 1) == ',') {
             strValue = strValue.substring(0, strValue.length() - 1);
         }
@@ -994,8 +997,7 @@ public class Common {
     public static Bitmap drawableTobitmap(Context mContext, int drawable) {
         // TODO Auto-generated method stub
         Drawable myDrawable = mContext.getResources().getDrawable(drawable);
-        assert myDrawable != null;
-        return ((BitmapDrawable) myDrawable).getBitmap();
+        return (myDrawable != null) ? ((BitmapDrawable) myDrawable).getBitmap() : null;
     }
 
     /**
@@ -1180,11 +1182,10 @@ public class Common {
             pInfo = mContext.getPackageManager().getPackageInfo(
                     mContext.getPackageName(), 0);
         } catch (NameNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        assert pInfo != null;
-        return pInfo.versionCode;
+        //noinspection ConstantConditions
+        return (pInfo != null) ? pInfo.versionCode : null;
     }
 
     // -----------------------
@@ -1201,13 +1202,13 @@ public class Common {
     public static void onBlueTooth(String action) {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
                 .getDefaultAdapter();
-        if (action.toLowerCase().equalsIgnoreCase("on")) {
+        if (action.toLowerCase(Locale.getDefault()).equalsIgnoreCase("on")) {
             if (!mBluetoothAdapter.isEnabled()) {
                 mBluetoothAdapter.enable();
             }
         }
 
-        if (action.toLowerCase().equalsIgnoreCase("off")) {
+        if (action.toLowerCase(Locale.getDefault()).equalsIgnoreCase("off")) {
             if (mBluetoothAdapter.isEnabled()) {
                 mBluetoothAdapter.disable();
             }
@@ -1217,13 +1218,13 @@ public class Common {
     public static void onWifi(Context mContext, String action) {
         WifiManager wm = ((WifiManager) mContext
                 .getSystemService(Context.WIFI_SERVICE));
-        if (action.toLowerCase().equalsIgnoreCase("on")) {
+        if (action.toLowerCase(Locale.getDefault()).equalsIgnoreCase("on")) {
             if (!wm.isWifiEnabled()) {
                 wm.setWifiEnabled(true);
             }
         }
 
-        if (action.toLowerCase().equalsIgnoreCase("off")) {
+        if (action.toLowerCase(Locale.getDefault()).equalsIgnoreCase("off")) {
             if (wm.isWifiEnabled()) {
                 wm.setWifiEnabled(false);
             }
@@ -1518,12 +1519,12 @@ public class Common {
         ((Activity) mContext).startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
     }
 
+    @SuppressLint("InlinedApi")
     public static void pickVideo(Context mContext, @SuppressWarnings("SameParameterValue") int CAMERA_PICK_VIDEO_REQUEST_CODE) {
-        Intent intent = null;
+        Intent intent = new Intent();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         }
-        assert intent != null;
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("video/*");
         ((Activity) mContext).startActivityForResult(intent, CAMERA_PICK_VIDEO_REQUEST_CODE);
@@ -1751,7 +1752,7 @@ public class Common {
                     String emlAddr = cur.getString(3);
 
                     // keep unique only
-                    if (emlRecsHS.add(emlAddr.toLowerCase())) {
+                    if (emlRecsHS.add(emlAddr.toLowerCase(Locale.getDefault()))) {
                         emlRecs.add(name + ", " + emlAddr);
                     }
                 } while (cur.moveToNext());
@@ -1903,13 +1904,15 @@ public class Common {
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = mContext.getContentResolver().query(targetUri, proj,
                 null, null, null);
-        assert cursor != null;
-        int column_index = cursor
+        if (cursor != null) {
+            int column_index = cursor
                 .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(column_index);
-        cursor.close();
-        return path;
+            cursor.moveToFirst();
+            String path = cursor.getString(column_index);
+            cursor.close();
+            return path;
+        }
+        return null;
     }
 
     private void showNETWORDDisabledAlertToUser(final Context ctx) {

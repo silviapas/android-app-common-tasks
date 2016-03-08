@@ -57,6 +57,7 @@ import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.SocialAuthManager;
 import org.brickred.socialauth.util.AccessGrant;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -172,7 +173,7 @@ class SocialAuthDialog extends Dialog {
         int res = getContext().getResources().getIdentifier(mProviderName.toString(), "drawable",
                 getContext().getPackageName());
         Drawable icon = getContext().getResources().getDrawable(res);
-        String sb = mProviderName.toString().substring(0, 1).toUpperCase() +
+        String sb = mProviderName.toString().substring(0, 1).toUpperCase(Locale.getDefault()) +
                 mProviderName.toString().substring(1, mProviderName.toString().length());
         mTitle.setText(sb);
         mTitle.setGravity(Gravity.CENTER_VERTICAL);
