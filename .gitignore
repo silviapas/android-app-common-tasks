@@ -9,3 +9,7 @@
 /simplecropimagelib/build
 /utils/build
 /captures
+/import-summary.txt
+.idea/compiler.xml
+.idea/gradle.xml
+.idea/misc.xml
