@@ -1,7 +1,7 @@
-# CommonSDK
-This Project contains Library of commonly used methods and it's examples.
+# Android Common Tasks
+- This Project contains Library of commonly used methods, classes and it's examples.
 
-Library contains easy way to implement social sdk i.e : Facebook, Twitter, Google+, LinkedIn.
+- Library also contains easy way to implement social sdk i.e : Facebook, Twitter, Google+, LinkedIn.
 
 This Project includes following common features.
 
@@ -67,14 +67,15 @@ This Project includes following common features.
     Get File Size.
     Download File.
     Invoke callback after ImageView is loaded.
+    Notif ImageView
 
-You can download the demo apk: https://github.com/CommonUtils/android/blob/master/UtilsDemo.apk
+####You can download the demo apk from [here](/docs/UtilsDemo.apk) .
 
-Refer UtilsExampleExplanation.pdf for learning how to use methods of this SDK. https://github.com/CommonUtils/android/blob/master/UtilsExampleExplanation.pdf 
+####Refer **[UtilsExampleExplanation.pdf](/docs/UtilsExampleExplanation.pdf)** for learning how to use methods of this SDK.
 
 =======
 
-LICENSE
+**LICENSE**
 
 The MIT License (MIT)
 
