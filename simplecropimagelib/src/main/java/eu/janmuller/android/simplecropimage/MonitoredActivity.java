@@ -24,21 +24,24 @@ import java.util.ArrayList;
 public class MonitoredActivity extends Activity {
 
     private final ArrayList<LifeCycleListener> mListeners =
-            new ArrayList<LifeCycleListener>();
+            new ArrayList<>();
 
-    public static interface LifeCycleListener {
+    public interface LifeCycleListener {
 
-        public void onActivityCreated(MonitoredActivity activity);
+        @SuppressWarnings("EmptyMethod")
+        void onActivityCreated(@SuppressWarnings("UnusedParameters") MonitoredActivity activity);
 
-        public void onActivityDestroyed(MonitoredActivity activity);
+        void onActivityDestroyed(@SuppressWarnings("UnusedParameters") MonitoredActivity activity);
 
-        public void onActivityPaused(MonitoredActivity activity);
+        @SuppressWarnings("EmptyMethod")
+        void onActivityPaused(@SuppressWarnings("UnusedParameters") MonitoredActivity activity);
 
-        public void onActivityResumed(MonitoredActivity activity);
+        @SuppressWarnings("EmptyMethod")
+        void onActivityResumed(@SuppressWarnings("UnusedParameters") MonitoredActivity activity);
 
-        public void onActivityStarted(MonitoredActivity activity);
+        void onActivityStarted(@SuppressWarnings("UnusedParameters") MonitoredActivity activity);
 
-        public void onActivityStopped(MonitoredActivity activity);
+        void onActivityStopped(@SuppressWarnings("UnusedParameters") MonitoredActivity activity);
     }
 
     public static class LifeCycleAdapter implements LifeCycleListener {

@@ -9,8 +9,7 @@ import android.provider.MediaStore;
 
 public class CameraActivity extends Activity {
 
-    Uri currImageURI;
-
+    @SuppressWarnings("EmptyMethod")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -27,12 +26,13 @@ public class CameraActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        /*
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                currImageURI = data.getData();
+                Uri currImageURI = data.getData();
             }
         }
+        */
     }
 
     public String getRealPathFromURI(Uri contentUri) {

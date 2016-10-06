@@ -63,7 +63,6 @@ public class TouchImageView extends ImageView {
     private Matrix matrix, prevMatrix;
     private State state;
 
-    ;
     private float minScale;
     private float maxScale;
     private float superMinScale;
@@ -198,7 +197,7 @@ public class TouchImageView extends ImageView {
      *
      * @return true if image is zoomed
      */
-    public boolean isZoomed() {
+    private boolean isZoomed() {
         return normalizedScale != 1;
     }
 
@@ -329,14 +328,14 @@ public class TouchImageView extends ImageView {
      *
      * @return current zoom multiplier.
      */
-    public float getCurrentZoom() {
+    private float getCurrentZoom() {
         return normalizedScale;
     }
 
     /**
      * Reset zoom and translation to initial state.
      */
-    public void resetZoom() {
+    private void resetZoom() {
         normalizedScale = 1;
         fitImageToView();
     }
@@ -360,7 +359,7 @@ public class TouchImageView extends ImageView {
      * @param focusX
      * @param focusY
      */
-    public void setZoom(float scale, float focusX, float focusY) {
+    private void setZoom(float scale, float focusX, float focusY) {
         setZoom(scale, focusX, focusY, mScaleType);
     }
 
@@ -375,7 +374,7 @@ public class TouchImageView extends ImageView {
      * @param focusY
      * @param scaleType
      */
-    public void setZoom(float scale, float focusX, float focusY, ScaleType scaleType) {
+    private void setZoom(float scale, float focusX, float focusY, ScaleType scaleType) {
         //
         // setZoom can be called before the image is on the screen, but at this point,
         // image and view sizes have not yet been calculated in onMeasure. Thus, we should
@@ -405,9 +404,11 @@ public class TouchImageView extends ImageView {
      *
      * @param TouchImageView
      */
-    public void setZoom(TouchImageView img) {
+    private void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();
-        setZoom(img.getCurrentZoom(), center.x, center.y, img.getScaleType());
+        if (center != null) {
+            setZoom(img.getCurrentZoom(), center.x, center.y, img.getScaleType());
+        }
     }
 
     /**
@@ -418,7 +419,7 @@ public class TouchImageView extends ImageView {
      *
      * @return PointF representing the scroll position of the zoomed image.
      */
-    public PointF getScrollPosition() {
+    private PointF getScrollPosition() {
         Drawable drawable = getDrawable();
         if (drawable == null) {
             return null;
@@ -529,6 +530,7 @@ public class TouchImageView extends ImageView {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         viewWidth = setViewSize(widthMode, widthSize, drawableWidth);
+        //noinspection SuspiciousNameCombination
         viewHeight = setViewSize(heightMode, heightSize, drawableHeight);
 
         //
@@ -834,10 +836,10 @@ public class TouchImageView extends ImageView {
         Log.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: " + n[Matrix.MTRANS_Y]);
     }
 
-    private static enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
+    private enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
 
     public interface OnTouchImageViewListener {
-        public void onMove();
+        void onMove();
     }
 
     /**
@@ -892,10 +894,7 @@ public class TouchImageView extends ImageView {
 
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
-            if (doubleTapListener != null) {
-                return doubleTapListener.onDoubleTapEvent(e);
-            }
-            return false;
+            return doubleTapListener != null && doubleTapListener.onDoubleTapEvent(e);
         }
     }
 
@@ -910,7 +909,7 @@ public class TouchImageView extends ImageView {
         //
         // Remember last point position for dragging
         //
-        private PointF last = new PointF();
+        private final PointF last = new PointF();
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -1025,13 +1024,15 @@ public class TouchImageView extends ImageView {
     private class DoubleTapZoom implements Runnable {
 
         private static final float ZOOM_TIME = 500;
-        private long startTime;
-        private float startZoom, targetZoom;
-        private float bitmapX, bitmapY;
-        private boolean stretchImageToSuper;
-        private AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
-        private PointF startTouch;
-        private PointF endTouch;
+        private final long startTime;
+        private final float startZoom;
+        private final float targetZoom;
+        private final float bitmapX;
+        private final float bitmapY;
+        private final boolean stretchImageToSuper;
+        private final AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
+        private final PointF startTouch;
+        private final PointF endTouch;
 
         DoubleTapZoom(float targetZoom, float focusX, float focusY, boolean stretchImageToSuper) {
             setState(State.ANIMATE_ZOOM);
@@ -1157,7 +1158,7 @@ public class TouchImageView extends ImageView {
                 minY = maxY = startY;
             }
 
-            scroller.fling(startX, startY, (int) velocityX, (int) velocityY, minX,
+            scroller.fling(startX, startY, velocityX, velocityY, minX,
                     maxX, minY, maxY);
             currX = startX;
             currY = startY;
@@ -1205,7 +1206,7 @@ public class TouchImageView extends ImageView {
     private class CompatScroller {
         Scroller scroller;
         OverScroller overScroller;
-        boolean isPreGingerbread;
+        final boolean isPreGingerbread;
 
         public CompatScroller(Context context) {
             if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {
@@ -1226,7 +1227,7 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public void forceFinished(boolean finished) {
+        public void forceFinished(@SuppressWarnings("SameParameterValue") boolean finished) {
             if (isPreGingerbread) {
                 scroller.forceFinished(finished);
             } else {
@@ -1269,10 +1270,10 @@ public class TouchImageView extends ImageView {
     }
 
     private class ZoomVariables {
-        public float scale;
-        public float focusX;
-        public float focusY;
-        public ScaleType scaleType;
+        public final float scale;
+        public final float focusX;
+        public final float focusY;
+        public final ScaleType scaleType;
 
         public ZoomVariables(float scale, float focusX, float focusY, ScaleType scaleType) {
             this.scale = scale;

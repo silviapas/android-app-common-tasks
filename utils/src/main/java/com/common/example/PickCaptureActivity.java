@@ -22,10 +22,6 @@ public class PickCaptureActivity extends Activity implements View.OnClickListene
 
     private ImageView ivPreview;
     private VideoView vvVideo;
-    private TextView tvCaptureImage;
-    private TextView tvCaptureVideo;
-    private TextView tvPickVideo;
-    private TextView tvPickImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +31,10 @@ public class PickCaptureActivity extends Activity implements View.OnClickListene
         ivPreview = (ImageView) findViewById(R.id.imageview_preview);
         vvVideo = (VideoView) findViewById(R.id.videoview_preview);
 
-        tvCaptureImage = (TextView) findViewById(R.id.captureimage);
-        tvCaptureVideo = (TextView) findViewById(R.id.capturevideo);
-        tvPickImage = (TextView) findViewById(R.id.pickimage);
-        tvPickVideo = (TextView) findViewById(R.id.pickvideo);
+        TextView tvCaptureImage = (TextView) findViewById(R.id.captureimage);
+        TextView tvCaptureVideo = (TextView) findViewById(R.id.capturevideo);
+        TextView tvPickImage = (TextView) findViewById(R.id.pickimage);
+        TextView tvPickVideo = (TextView) findViewById(R.id.pickvideo);
 
         tvCaptureImage.setOnClickListener(this);
         tvCaptureVideo.setOnClickListener(this);
@@ -84,7 +80,7 @@ public class PickCaptureActivity extends Activity implements View.OnClickListene
                     vvVideo.setVisibility(View.GONE);
                     ivPreview.setVisibility(View.VISIBLE);
                     Uri uri = data.getData();
-                    Common.startCropImage(this, Common.getPath(this, uri), 105, 1, 1);
+                    Common.startCropImage(this, Common.getPath(this, uri), 105, 1);
 //                    try {
 //                        Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
 //                        ivPreview.setImageBitmap(bm);

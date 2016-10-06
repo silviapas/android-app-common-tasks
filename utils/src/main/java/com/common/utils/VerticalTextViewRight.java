@@ -8,7 +8,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 public class VerticalTextViewRight extends TextView {
-    final boolean topDown;
+    private final boolean topDown;
 
     public VerticalTextViewRight(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,7 +25,7 @@ public class VerticalTextViewRight extends TextView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(heightMeasureSpec, widthMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
     }
 

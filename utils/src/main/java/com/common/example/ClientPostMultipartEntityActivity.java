@@ -2,31 +2,24 @@ package com.common.example;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.common.utils.Common;
 import com.common.utils.R;
-import com.common.utils.social.SocialAuthDialog;
 
 public class ClientPostMultipartEntityActivity extends Activity {
-
-    Button btnShare;
-    TextView tvCode;
-        WebView webview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prevent_click);
 
-        btnShare = (Button) findViewById(R.id.btnShare);
-            webview = (WebView) findViewById(R.id.webView);
+        Button btnShare = (Button) findViewById(R.id.btnShare);
+        WebView webview = (WebView) findViewById(R.id.webView);
             webview.loadUrl("file:///android_asset/multi.html");
-        tvCode = (TextView) findViewById(R.id.prevent_double_click_tv_code);
+//        TextView tvCode = (TextView) findViewById(R.id.prevent_double_click_tv_code);
 //        tvCode.setText(
 //                " /**\n" +
 //                        " * This is used for post data from API.\n" +

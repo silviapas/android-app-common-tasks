@@ -54,14 +54,14 @@ import java.util.Map;
  * @author abhinav.maheswari@3pillarglobal.com
  */
 
-public final class Util {
+final class Util {
 
     public static int UI_DENSITY;
     public static int UI_SIZE;
     public static int UI_YAHOO_ALLOW;
     public static int UI_RESOLUTION;
 
-    public static String providerList[] = {"facebook", "twitter", "runkeeper", "yammer", "foursquare", "salesforce",
+    private static final String[] providerList = {"facebook", "twitter", "runkeeper", "yammer", "foursquare", "salesforce",
             "linkedin", "myspace", "flickr", "instagram"};
 
     /**
@@ -83,7 +83,7 @@ public final class Util {
                 first = false;
             else
                 sb.append("&");
-            sb.append(URLEncoder.encode(key) + "=" + URLEncoder.encode(parameters.getString(key)));
+            sb.append(URLEncoder.encode(key)).append("=").append(URLEncoder.encode(parameters.getString(key)));
         }
         return sb.toString();
     }
@@ -95,8 +95,8 @@ public final class Util {
      * @return Map of parameter and values
      */
     @SuppressWarnings("deprecation")
-    public static Map<String, String> decodeUrl(String s) {
-        Map<String, String> params = new HashMap<String, String>();
+    private static Map<String, String> decodeUrl(String s) {
+        Map<String, String> params = new HashMap<>();
         if (s != null) {
             String array[] = s.split("&");
             for (String parameter : array) {
@@ -124,7 +124,7 @@ public final class Util {
             params.putAll(decodeUrl(u.getRef()));
             return params;
         } catch (MalformedURLException e) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
     }
 
@@ -149,21 +149,20 @@ public final class Util {
      * @return true if network Available otherwise false
      */
     public static boolean isNetworkAvailable(Context context) {
-        if (context.checkCallingOrSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-            return false;
+        boolean available = false;
+        if (context.checkCallingOrSelfPermission(Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+            ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
+            available = netInfo != null && netInfo.isConnected();
         }
-
-        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
+        return available;
     }
 
     public static ArrayList<AppList> queryIntentActivities(Context c, String providerNames[], int providerLogos[]) {
 
         int index = 0;
-        AppList info = null;
-        ArrayList<AppList> listOfImageSharableApp = new ArrayList<AppList>();
+        AppList info;
+        ArrayList<AppList> listOfImageSharableApp = new ArrayList<>();
 
         for (String menuItem : providerNames) {
             info = new AppList();
@@ -210,19 +209,20 @@ public final class Util {
         return listOfImageSharableApp;
     }
 
-    public static boolean isInProvidersList(String packageName) {
+    private static boolean isInProvidersList(String packageName) {
         Log.e("Package Name remove", packageName);
         boolean temp = false;
         for (String providerKey : providerList) {
             if (packageName.contains(providerKey)) {
                 Log.e("Provider Key", providerKey);
-                return temp = true;
+                temp = true;
+                break;
             }
         }
         return temp;
     }
 
-    public static String toTitleCase(String input) {
+    private static String toTitleCase(String input) {
         StringBuilder titleCase = new StringBuilder();
         boolean nextTitleCase = true;
 

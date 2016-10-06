@@ -15,8 +15,9 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class ScreenModeDis_Ean_Act extends Activity {
-    Context mContext;
-    Button btnDisable, btnEnable;
+    private Context mContext;
+    private Button btnDisable;
+    private Button btnEnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

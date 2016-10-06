@@ -5,9 +5,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 
 /*
@@ -16,7 +18,7 @@ import java.util.HashMap;
 
 public class InternalStorageContentProvider extends ContentProvider {
     public static final Uri CONTENT_URI = Uri.parse("content://eu.janmuller.android.simplecropimage.example/");
-	private static final HashMap<String, String> MIME_TYPES = new HashMap<String, String>();
+	private static final HashMap<String, String> MIME_TYPES = new HashMap<>();
 	
 	static {
 		MIME_TYPES.put(".jpg", "image/jpeg");
@@ -26,20 +28,22 @@ public class InternalStorageContentProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		try {
-			File mFile = new File(getContext().getFilesDir(), CropImageActivity.TEMP_PHOTO_FILE_NAME);
+			@SuppressWarnings("ConstantConditions") File mFile = new File(getContext().getFilesDir(), CropImageActivity.TEMP_PHOTO_FILE_NAME);
 			if(!mFile.exists()) {
+				//noinspection ResultOfMethodCallIgnored
 				mFile.createNewFile();
 				getContext().getContentResolver().notifyChange(CONTENT_URI, null);
 			}
 			return (true);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
 		}
+		catch (NullPointerException | IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	@Override
-	public String getType(Uri uri) {
+	public String getType(@NonNull Uri uri) {
 		String path = uri.toString();
 		for (String extension : MIME_TYPES.keySet()) {
 			if (path.endsWith(extension)) {
@@ -50,31 +54,36 @@ public class InternalStorageContentProvider extends ContentProvider {
 	}
 	
 	@Override
-	public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
-		File f = new File(getContext().getFilesDir(), CropImageActivity.TEMP_PHOTO_FILE_NAME);
-		if (f.exists()) {
-			return (ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_READ_WRITE));
+	public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode) throws FileNotFoundException {
+		try {
+			@SuppressWarnings("ConstantConditions") File f = new File(getContext().getFilesDir(), CropImageActivity.TEMP_PHOTO_FILE_NAME);
+			if (f.exists()) {
+				return (ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_READ_WRITE));
+			}
+		}
+		catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		throw new FileNotFoundException(uri.getPath());
 	}
 	
 	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
+	public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
 		return 0;
 	}
 	
 	@Override
-	public Uri insert(Uri uri, ContentValues values) {
+	public Uri insert(@NonNull Uri uri, ContentValues values) {
 		return null;
 	}
 	
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+	public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		return null;
 	}
 	
 	@Override
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+	public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		return 0;
 	}
 }

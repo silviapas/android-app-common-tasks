@@ -17,8 +17,8 @@ import com.common.utils.R;
 
 public class ColorPickerActivity extends Activity {
 
-    int color;
-    View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+    private int color;
+    private final View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
 
@@ -69,8 +69,6 @@ public class ColorPickerActivity extends Activity {
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     final Bitmap bitmap = BitmapFactory.decodeFile(path, options);
                     ivColorImage.setImageBitmap(bitmap);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
                 } catch (OutOfMemoryError outOfMemoryError) {
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     // downsizing image as it throws OutOfMemory Exception for larger images
@@ -84,7 +82,7 @@ public class ColorPickerActivity extends Activity {
             }
     }
 
-    protected void updateResultData() {
+    private void updateResultData() {
         int red = Color.red(color);
         int green = Color.green(color);
         int blue = Color.blue(color);

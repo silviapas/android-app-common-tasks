@@ -11,8 +11,7 @@ import com.common.utils.R;
 
 public class ToastActivity extends Activity {
 
-    EditText et_Url;
-    Button btnOpenUrl;
+    private EditText et_Url;
     private ToastActivity mContext;
 
     @Override
@@ -27,7 +26,7 @@ public class ToastActivity extends Activity {
     private void init() {
 
         et_Url = (EditText) findViewById(R.id.et_address);
-        btnOpenUrl = (Button) findViewById(R.id.btnOpenMap);
+        Button btnOpenUrl = (Button) findViewById(R.id.btnOpenMap);
 
         btnOpenUrl.setOnClickListener(new View.OnClickListener() {
             @Override

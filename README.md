@@ -66,6 +66,7 @@ This Project includes following common features.
     Pick Color from ImageView.
     Get File Size.
     Download File.
+    Invoke callback after ImageView is loaded.
 
 You can download the demo apk: https://github.com/CommonUtils/android/blob/master/UtilsDemo.apk
 

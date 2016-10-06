@@ -9,7 +9,7 @@ import android.os.IBinder;
 
 public class BackgroundMusicService extends Service {
 
-    MediaPlayer mp;
+    private MediaPlayer mp;
 
     @Override
     public IBinder onBind(Intent intent) {

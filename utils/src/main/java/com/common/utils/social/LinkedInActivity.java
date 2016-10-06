@@ -27,6 +27,7 @@ import org.scribe.oauth.OAuthService;
 /**
  * Created by Sanjay on 12/30/2014.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class LinkedInActivity extends Activity {
 
     private static final String OAUTH_CALLBACK_SCHEME = "x-oauthflow-linkedin";
@@ -34,14 +35,12 @@ public class LinkedInActivity extends Activity {
     private static final String OAUTH_CALLBACK_URL = OAUTH_CALLBACK_SCHEME
             + "://" + OAUTH_CALLBACK_HOST;
     private static final String PROTECTED_RESOURCE_URL = "http://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,skills)?format=json";
-    public static Token ACCESSTOKEN;
-    private static Response response;
     private static OAuthService oas_linkedin;
     private static Token requestToken;
     private static String authURL;
     private final long startTime = 5 * 1000;
     private final long intervalTime = 5 * 1000;
-    ProgressDialog progress;
+    private ProgressDialog progress;
     private String APIKEY = "";
     private String APISECRET = "";
     //	,skill:(name)
@@ -85,8 +84,7 @@ public class LinkedInActivity extends Activity {
             requestToken = oas_linkedin.getRequestToken();
             authURL = oas_linkedin.getAuthorizationUrl(requestToken);
 
-            final WebView webview = (WebView) findViewById(R.id.web_view);
-            return webview;
+            return (WebView) findViewById(R.id.web_view);
         }
 
         @Override
@@ -105,11 +103,6 @@ public class LinkedInActivity extends Activity {
                         return true;
                     }
                     System.out.println("view:" + view);
-                    // if (!progress.equals(null)) {
-                    // progress.dismiss();
-                    // } else if (progress.equals(null)) {
-                    // progress.show();
-                    // }
                     countDownTimer = new MyCountDownTimer(startTime,
                             intervalTime);
                     countDownTimer.start();
@@ -128,10 +121,8 @@ public class LinkedInActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            if (!progress.equals(null)) {
+            if (progress != null) {
                 progress.dismiss();
-            } else {
-                progress.show();
             }
             super.onPreExecute();
         }
@@ -150,11 +141,10 @@ public class LinkedInActivity extends Activity {
                 System.out.println("hp Verifier>>>> " + v.getValue());
                 final Token accessToken = oas_linkedin.getAccessToken(requestToken,
                         v);
-                ACCESSTOKEN = accessToken;
                 final OAuthRequest request = new OAuthRequest(Verb.GET,
                         PROTECTED_RESOURCE_URL);
                 oas_linkedin.signRequest(accessToken, request);
-                response = request.send();
+                Response response = request.send();
 
 //                TODO JSON response in intent RESPONSE
                 Intent intent = new Intent();
@@ -228,10 +218,8 @@ public class LinkedInActivity extends Activity {
 
         @Override
         public void onFinish() {
-            if (!progress.equals(null)) {
+            if (progress != null) {
                 progress.dismiss();
-            } else if (progress.equals(null)) {
-                progress.show();
             }
         }
 

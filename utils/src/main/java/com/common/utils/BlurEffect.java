@@ -18,7 +18,7 @@ import android.util.Log;
 /**
  * The Class Blur.
  */
-public class BlurEffect {
+class BlurEffect {
 
     /**
      * Fastblur.
@@ -32,7 +32,7 @@ public class BlurEffect {
     public static Bitmap fastblur(Context context, Bitmap sentBitmap, int radius) {
 
         if (VERSION.SDK_INT > 16) {
-            Bitmap bitmap = null;
+            Bitmap bitmap;
             bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
             final RenderScript rs = RenderScript.create(context);
             final Allocation input = Allocation.createFromBitmap(rs,

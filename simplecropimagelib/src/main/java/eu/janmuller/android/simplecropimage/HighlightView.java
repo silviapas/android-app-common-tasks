@@ -17,7 +17,13 @@
 package eu.janmuller.android.simplecropimage;
 
 
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -29,14 +35,14 @@ class HighlightView {
 
     @SuppressWarnings("unused")
     private static final String TAG = "HighlightView";
-    View mContext;  // The View displaying the image.
+    private final View mContext;  // The View displaying the image.
 
-    public static final int GROW_NONE        = (1 << 0);
-    public static final int GROW_LEFT_EDGE   = (1 << 1);
-    public static final int GROW_RIGHT_EDGE  = (1 << 2);
-    public static final int GROW_TOP_EDGE    = (1 << 3);
-    public static final int GROW_BOTTOM_EDGE = (1 << 4);
-    public static final int MOVE             = (1 << 5);
+    public static final int GROW_NONE         = (1);
+    private static final int GROW_LEFT_EDGE   = (1 << 1);
+    private static final int GROW_RIGHT_EDGE  = (1 << 2);
+    private static final int GROW_TOP_EDGE    = (1 << 3);
+    private static final int GROW_BOTTOM_EDGE = (1 << 4);
+    public static final int MOVE              = (1 << 5);
 
     public HighlightView(View ctx) {
 
@@ -55,7 +61,7 @@ class HighlightView {
     }
 
     boolean mIsFocused;
-    boolean mHidden;
+    private boolean mHidden;
 
     public boolean hasFocus() {
 
@@ -67,12 +73,12 @@ class HighlightView {
         mIsFocused = f;
     }
 
-    public void setHidden(boolean hidden) {
+    public void setHidden(@SuppressWarnings("SameParameterValue") boolean hidden) {
 
         mHidden = hidden;
     }
 
-    protected void draw(Canvas canvas) {
+    void draw(Canvas canvas) {
 
         if (mHidden) {
             return;
@@ -276,8 +282,8 @@ class HighlightView {
     void handleMotion(int edge, float dx, float dy) {
 
         Rect r = computeLayout();
+        //noinspection StatementWithEmptyBody
         if (edge == GROW_NONE) {
-            return;
         } else if (edge == MOVE) {
             // Convert to image space before sending to moveBy().
             moveBy(dx * (mCropRect.width() / r.width()),
@@ -300,7 +306,7 @@ class HighlightView {
     }
 
     // Grows the cropping rectange by (dx, dy) in image space.
-    void moveBy(float dx, float dy) {
+    private void moveBy(float dx, float dy) {
 
         Rect invalRect = new Rect(mDrawRect);
 
@@ -322,7 +328,7 @@ class HighlightView {
     }
 
     // Grows the cropping rectange by (dx, dy) in image space.
-    void growBy(float dx, float dy) {
+    private void growBy(float dx, float dy) {
 
         if (mMaintainAspectRatio) {
             if (dx != 0) {
@@ -337,15 +343,13 @@ class HighlightView {
         // the cropping rectangle.
         RectF r = new RectF(mCropRect);
         if (dx > 0F && r.width() + 2 * dx > mImageRect.width()) {
-            float adjustment = (mImageRect.width() - r.width()) / 2F;
-            dx = adjustment;
+            dx = (mImageRect.width() - r.width()) / 2F;
             if (mMaintainAspectRatio) {
                 dy = dx / mInitialAspectRatio;
             }
         }
         if (dy > 0F && r.height() + 2 * dy > mImageRect.height()) {
-            float adjustment = (mImageRect.height() - r.height()) / 2F;
-            dy = adjustment;
+            dy = (mImageRect.height() - r.height()) / 2F;
             if (mMaintainAspectRatio) {
                 dx = dy * mInitialAspectRatio;
             }

@@ -36,6 +36,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -80,6 +81,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Main class of the SocialAuth Android SDK. Wraps a user interface component
@@ -119,13 +121,11 @@ import java.util.Map;
 public class SocialAuthAdapter {
 
     // Share Mail & MMS providers
-    public static final String SHARE_MAIL = "share_mail";
-    public static final String SHARE_MMS = "share_mms";
+    private static final String SHARE_MAIL = "share_mail";
+    private static final String SHARE_MMS = "share_mms";
     // Constants
     public static final String PROVIDER = "provider";
     public static final String ACCESS_GRANT = "access_grant";
-    // Facebook feed url for updating story
-    private final String UPDATE_STATUS_URL = "https://graph.facebook.com/me/feed";
     // contains array of providers
     private final Provider authProviders[];
     private final int authProviderLogos[];
@@ -142,7 +142,6 @@ public class SocialAuthAdapter {
     private String url;
     private String storyResult;
     private int providerCount = 0;
-    private Map<String, Object> tokenMap;
 
     /**
      * Constructor
@@ -154,7 +153,7 @@ public class SocialAuthAdapter {
         authProviders = new Provider[Provider.values().length];
         authProviderLogos = new int[Provider.values().length];
         this.dialogListener = listener;
-        authMap = new HashMap<String, OAuthConfig>();
+        authMap = new HashMap<>();
     }
 
     /**
@@ -185,12 +184,14 @@ public class SocialAuthAdapter {
      * @param callBack CallBack URL String
      */
     public void addCallBack(Provider provider, String callBack) {
-        if (provider.name() == Constants.FACEBOOK || provider.name() == Constants.LINKEDIN
-                || provider.name() == Constants.MYSPACE || provider.name() == Constants.YAHOO
-                || provider.name() == Constants.RUNKEEPER) {
-            Log.d("SocialAuthAdapter", "Callback Url not require");
-        } else
-            provider.setCallBackUri(callBack);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Objects.equals(provider.name(), Constants.FACEBOOK) || Objects.equals(provider.name(), Constants.LINKEDIN)
+                    || Objects.equals(provider.name(), Constants.MYSPACE) || Objects.equals(provider.name(), Constants.YAHOO)
+                    || Objects.equals(provider.name(), Constants.RUNKEEPER)) {
+                Log.d("SocialAuthAdapter", "Callback Url not require");
+            } else
+                provider.setCallBackUri(callBack);
+        }
     }
 
     /**
@@ -213,7 +214,7 @@ public class SocialAuthAdapter {
      *
      * @return Provider object
      */
-    public AuthProvider getCurrentProvider() {
+    private AuthProvider getCurrentProvider() {
         if (currentProvider != null) {
             return socialAuthManager.getProvider(currentProvider.toString());
 
@@ -279,7 +280,6 @@ public class SocialAuthAdapter {
         // If network not available show message
         if (!Util.isNetworkAvailable(ctx)) {
             dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
-            return;
         }
     }
 
@@ -354,7 +354,6 @@ public class SocialAuthAdapter {
         // If network not available show message
         if (!Util.isNetworkAvailable(ctx)) {
             dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
-            return;
         }
     }
 
@@ -397,7 +396,6 @@ public class SocialAuthAdapter {
         // If network not available show message
         if (!Util.isNetworkAvailable(ctx)) {
             dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
-            return;
         }
     }
 
@@ -449,7 +447,6 @@ public class SocialAuthAdapter {
         // If network not available show message
         if (!Util.isNetworkAvailable(ctx)) {
             dialogListener.onError(new SocialAuthError("Please check your Internet connection", new Exception("")));
-            return;
         }
     }
 
@@ -463,7 +460,7 @@ public class SocialAuthAdapter {
      * @param permissions permissions for provider
      */
 
-    public void addConfig(Provider provider, String key, String secret, String permissions) throws Exception {
+    public void addConfig(Provider provider, String key, String secret, String permissions) {
         OAuthConfig authConfig = new OAuthConfig(key, secret);
         authConfig.setId(provider.toString());
         authConfig.setCustomPermissions(permissions);
@@ -482,7 +479,7 @@ public class SocialAuthAdapter {
         Resources resources = ctx.getResources();
         AssetManager assetManager = resources.getAssets();
         InputStream inputStream = null;
-        boolean fileExist = false;
+        boolean fileExist;
         // Check oauth_consumer.properties file exist
         try {
             inputStream = assetManager.open("oauth_consumer.properties");
@@ -557,7 +554,7 @@ public class SocialAuthAdapter {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
 
         if (pref.contains(provider.toString() + " key")) {
-            tokenMap = new HashMap<String, Object>();
+            Map<String, Object> tokenMap = new HashMap<>();
 
             for (Map.Entry entry : pref.getAll().entrySet())
                 tokenMap.put(entry.getKey().toString(), entry.getValue());
@@ -565,8 +562,8 @@ public class SocialAuthAdapter {
             // If Access Token is available , connect using Access Token
             try {
 
-                HashMap<String, Object> attrMap = null;
-                attrMap = new HashMap<String, Object>();
+                HashMap<String, Object> attrMap;
+                attrMap = new HashMap<>();
 
                 String key = (String) tokenMap.get(provider.toString() + " key");
                 String secret = (String) tokenMap.get(provider.toString() + " secret");
@@ -603,6 +600,7 @@ public class SocialAuthAdapter {
                             socialAuthManager.connect(accessGrant);
 
                             // To check validity of Access Token
+                            //noinspection ConstantConditions
                             getCurrentProvider().getUserProfile().getValidatedId();
 
                             handler.post(new Runnable() {
@@ -667,11 +665,11 @@ public class SocialAuthAdapter {
      *
      * @return Status of signing out
      */
+    @SuppressWarnings("UnusedReturnValue")
     public boolean signOut(Context ctx, String providerName) {
 
         // remove cookies
         Context appContext = ctx.getApplicationContext();
-        CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(appContext);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
 
@@ -682,7 +680,7 @@ public class SocialAuthAdapter {
 
             Editor edit = PreferenceManager.getDefaultSharedPreferences(appContext).edit();
             edit.remove(providerName + " key");
-            edit.commit();
+            edit.apply();
 
             Log.d("SocialAuthAdapter", "Disconnecting Provider");
 
@@ -716,7 +714,7 @@ public class SocialAuthAdapter {
             @Override
             public void run() {
                 try {
-                    if (shareOption == true) {
+                    if (shareOption) {
                         final List<String> activeProviders = socialAuthManager.getConnectedProvidersIds();
                         for (int i = 0; i < activeProviders.size(); i++) {
                             final String provider = activeProviders.get(i);
@@ -726,18 +724,18 @@ public class SocialAuthAdapter {
                                 @Override
                                 public void run() {
                                     int status = response.getStatus();
-                                    listener.onExecute(provider, Integer.valueOf(status));
+                                    listener.onExecute(provider, status);
                                 }
                             });
                         }
                     } else {
-                        final Response response = getCurrentProvider().updateStatus(message);
+                        @SuppressWarnings("ConstantConditions") final Response response = getCurrentProvider().updateStatus(message);
 
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
                                 int status = response.getStatus();
-                                listener.onExecute(getCurrentProvider().getProviderId(), Integer.valueOf(status));
+                                listener.onExecute(getCurrentProvider().getProviderId(), status);
                             }
                         });
                     }
@@ -768,22 +766,27 @@ public class SocialAuthAdapter {
                             final String link, final String picture, final SocialAuthListener<Integer> listener)
             throws UnsupportedEncodingException {
 
-        if (getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")) {
-            final Map<String, String> params = new HashMap<String, String>();
-            params.put("name", name);
-            params.put("caption", caption);
-            params.put("description", description);
-            params.put("link", link);
-            params.put("picture", picture);
+        try {
+            //noinspection ConstantConditions
+            if (getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")) {
+                final Map<String, String> params = new HashMap<>();
+                params.put("name", name);
+                params.put("caption", caption);
+                params.put("description", description);
+                params.put("link", link);
+                params.put("picture", picture);
 
-            final StringBuilder strb = new StringBuilder();
-            strb.append("message=").append(URLEncoder.encode(message, Constants.ENCODING));
-            strb.append("&access_token").append("=").append(getCurrentProvider().getAccessGrant().getKey());
+                storyResult = "message=" + URLEncoder.encode(message, Constants.ENCODING) +
+                        "&access_token" + "=" + getCurrentProvider().getAccessGrant().getKey();
 
-            storyResult = strb.toString();
-            new StoryTask(listener).execute(params);
+                new StoryTask(listener).execute(params);
 
-        } else {
+            } else {
+                Log.d("SocialAuthAdapter", "Provider Not Supported");
+            }
+        }
+        catch (NullPointerException e) {
+            e.printStackTrace();
             Log.d("SocialAuthAdapter", "Provider Not Supported");
         }
     }
@@ -801,8 +804,9 @@ public class SocialAuthAdapter {
      */
     public Response api(final String url, final String methodType, final Map<String, String> params,
                         final Map<String, String> headerParams, final String body) throws Exception {
-        Response response = null;
+        Response response;
         try {
+            //noinspection ConstantConditions
             response = getCurrentProvider().api(url, methodType, params, headerParams, body);
         } catch (Exception e) {
             throw new SocialAuthException("Error while making request to URL : " + url, e);
@@ -816,8 +820,9 @@ public class SocialAuthAdapter {
      */
 
     public Profile getUserProfile() {
-        Profile profileList = null;
+        Profile profileList;
         try {
+            //noinspection ConstantConditions
             profileList = getCurrentProvider().getUserProfile();
             Log.d("SocialAuthAdapter", "Received Profile Details");
             return profileList;
@@ -843,8 +848,9 @@ public class SocialAuthAdapter {
      */
 
     public List<Contact> getContactList() {
-        List<Contact> contactsMap = null;
+        List<Contact> contactsMap;
         try {
+            //noinspection ConstantConditions
             contactsMap = getCurrentProvider().getContactList();
             Log.d("SocialAuthAdapter", "Received Contact list");
             return contactsMap;
@@ -872,6 +878,7 @@ public class SocialAuthAdapter {
     public List<Feed> getFeeds() {
         try {
             List<Feed> feedMap = null;
+            //noinspection ConstantConditions
             if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.FeedPlugin.class)) {
                 FeedPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.FeedPlugin.class);
                 feedMap = p.getFeeds();
@@ -907,6 +914,7 @@ public class SocialAuthAdapter {
         try {
             List<Album> albumMap = null;
 
+            //noinspection ConstantConditions
             if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.AlbumsPlugin.class)) {
                 AlbumsPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.AlbumsPlugin.class);
                 albumMap = p.getAlbums();
@@ -956,13 +964,14 @@ public class SocialAuthAdapter {
 
         InputStream inputStream = new ByteArrayInputStream(bos.toByteArray());
 
-        Response res = null;
+        Response res;
         try {
+            //noinspection ConstantConditions
             if (getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")
                     || getCurrentProvider().getProviderId().equalsIgnoreCase("twitter")) {
                 res = getCurrentProvider().uploadImage(message, fileName, inputStream);
                 Log.d("SocialAuthAdapter", "Image Uploaded");
-                return Integer.valueOf(res.getStatus());
+                return res.getStatus();
             } else {
                 throw new SocialAuthException("Provider not Supported");
             }
@@ -995,10 +1004,17 @@ public class SocialAuthAdapter {
         }
 
         InputStream inputStream = new ByteArrayInputStream(bos.toByteArray());
-        if (getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")
-                || getCurrentProvider().getProviderId().equalsIgnoreCase("twitter")) {
-            new UploadImageTask(listener).execute(message, fileName, inputStream);
-        } else {
+        try {
+            //noinspection ConstantConditions
+            if (getCurrentProvider().getProviderId().equalsIgnoreCase("facebook")
+                    || getCurrentProvider().getProviderId().equalsIgnoreCase("twitter")) {
+                new UploadImageTask(listener).execute(message, fileName, inputStream);
+            } else {
+                throw new SocialAuthException("Provider not Supported");
+            }
+        }
+        catch (NullPointerException e) {
+            e.printStackTrace();
             throw new SocialAuthException("Provider not Supported");
         }
     }
@@ -1038,7 +1054,7 @@ public class SocialAuthAdapter {
                 ""), MMS(SHARE_MMS, "", ""), GENERIC("", "", "");
 
         private String name;
-        private String cancelUri;
+        private final String cancelUri;
         private String callbackUri;
 
         /**
@@ -1095,22 +1111,25 @@ public class SocialAuthAdapter {
 
     private class StoryTask extends AsyncTask<Map<String, String>, Void, Integer> {
 
-        SocialAuthListener<Integer> listener;
+        final SocialAuthListener<Integer> listener;
 
         private StoryTask(SocialAuthListener<Integer> listener) {
             this.listener = listener;
         }
 
+        @SafeVarargs
         @Override
-        protected Integer doInBackground(Map<String, String>... params) {
+        protected final Integer doInBackground(Map<String, String>... params) {
             // Call using API method of socialauth
-            Response response = null;
+            Response response;
             Map<String, String> paramsMap = params[0];
             try {
+                String UPDATE_STATUS_URL = "https://graph.facebook.com/me/feed";
+                //noinspection ConstantConditions
                 response = getCurrentProvider().api(UPDATE_STATUS_URL, MethodType.POST.toString(), paramsMap, null,
                         storyResult);
                 Log.d("Status", String.valueOf(response.getStatus()));
-                return Integer.valueOf(response.getStatus());
+                return response.getStatus();
             } catch (Exception e) {
                 e.printStackTrace();
                 dialogListener.onError(new SocialAuthError("Message Not Posted", e));
@@ -1121,7 +1140,13 @@ public class SocialAuthAdapter {
 
         @Override
         protected void onPostExecute(Integer status) {
-            listener.onExecute(getCurrentProvider().getProviderId(), status);
+            try {
+                //noinspection ConstantConditions
+                listener.onExecute(getCurrentProvider().getProviderId(), status);
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1131,7 +1156,7 @@ public class SocialAuthAdapter {
 
     private class ProfileTask extends AsyncTask<Void, Void, Profile> {
 
-        SocialAuthListener<Profile> listener;
+        final SocialAuthListener<Profile> listener;
 
         private ProfileTask(SocialAuthListener<Profile> listener) {
             this.listener = listener;
@@ -1140,8 +1165,9 @@ public class SocialAuthAdapter {
         @Override
         protected Profile doInBackground(Void... params) {
 
-            Profile profileList = null;
+            Profile profileList;
             try {
+                //noinspection ConstantConditions
                 profileList = getCurrentProvider().getUserProfile();
                 Log.d("SocialAuthAdapter", "Received Profile Details");
                 return profileList;
@@ -1155,7 +1181,13 @@ public class SocialAuthAdapter {
 
         @Override
         protected void onPostExecute(Profile profile) {
-            listener.onExecute(getCurrentProvider().getProviderId(), profile);
+            try {
+                //noinspection ConstantConditions
+                listener.onExecute(getCurrentProvider().getProviderId(), profile);
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1165,7 +1197,7 @@ public class SocialAuthAdapter {
 
     private class ContactTask extends AsyncTask<Void, Void, List<Contact>> {
 
-        SocialAuthListener<List<Contact>> listener;
+        final SocialAuthListener<List<Contact>> listener;
 
         private ContactTask(SocialAuthListener<List<Contact>> listener) {
             this.listener = listener;
@@ -1173,8 +1205,9 @@ public class SocialAuthAdapter {
 
         @Override
         protected List<Contact> doInBackground(Void... params) {
-            List<Contact> contactsMap = null;
+            List<Contact> contactsMap;
             try {
+                //noinspection ConstantConditions
                 contactsMap = getCurrentProvider().getContactList();
                 Log.d("SocialAuthAdapter", "Received Contact list");
                 return contactsMap;
@@ -1187,7 +1220,13 @@ public class SocialAuthAdapter {
 
         @Override
         protected void onPostExecute(List<Contact> contactsMap) {
-            listener.onExecute(getCurrentProvider().getProviderId(), contactsMap);
+            try {
+                //noinspection ConstantConditions
+                listener.onExecute(getCurrentProvider().getProviderId(), contactsMap);
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1196,7 +1235,7 @@ public class SocialAuthAdapter {
      */
     private class FeedTask extends AsyncTask<Void, Void, List<Feed>> {
 
-        SocialAuthListener<List<Feed>> listener;
+        final SocialAuthListener<List<Feed>> listener;
 
         private FeedTask(SocialAuthListener<List<Feed>> listener) {
             this.listener = listener;
@@ -1207,6 +1246,7 @@ public class SocialAuthAdapter {
 
             try {
                 List<Feed> feedMap = null;
+                //noinspection ConstantConditions
                 if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.FeedPlugin.class)) {
                     FeedPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.FeedPlugin.class);
                     feedMap = p.getFeeds();
@@ -1225,7 +1265,13 @@ public class SocialAuthAdapter {
 
         @Override
         protected void onPostExecute(List<Feed> feedMap) {
-            listener.onExecute(getCurrentProvider().getProviderId(), feedMap);
+            try {
+                //noinspection ConstantConditions
+                listener.onExecute(getCurrentProvider().getProviderId(), feedMap);
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1235,7 +1281,7 @@ public class SocialAuthAdapter {
 
     private class AlbumTask extends AsyncTask<Void, Void, List<Album>> {
 
-        SocialAuthListener<List<Album>> listener;
+        final SocialAuthListener<List<Album>> listener;
 
         private AlbumTask(SocialAuthListener<List<Album>> listener) {
             this.listener = listener;
@@ -1246,6 +1292,7 @@ public class SocialAuthAdapter {
             try {
                 List<Album> albumMap = null;
 
+                //noinspection ConstantConditions
                 if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.AlbumsPlugin.class)) {
                     AlbumsPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.AlbumsPlugin.class);
                     albumMap = p.getAlbums();
@@ -1264,8 +1311,13 @@ public class SocialAuthAdapter {
 
         @Override
         protected void onPostExecute(List<Album> albumMap) {
-
-            listener.onExecute(getCurrentProvider().getProviderId(), albumMap);
+            try {
+                //noinspection ConstantConditions
+                listener.onExecute(getCurrentProvider().getProviderId(), albumMap);
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1275,7 +1327,7 @@ public class SocialAuthAdapter {
 
     private class UploadImageTask extends AsyncTask<Object, Void, Integer> {
 
-        SocialAuthListener<Integer> listener;
+        final SocialAuthListener<Integer> listener;
 
         private UploadImageTask(SocialAuthListener<Integer> listener) {
             this.listener = listener;
@@ -1283,11 +1335,12 @@ public class SocialAuthAdapter {
 
         @Override
         protected Integer doInBackground(Object... params) {
-            Response res = null;
+            Response res;
             try {
+                //noinspection ConstantConditions
                 res = getCurrentProvider().uploadImage((String) params[0], (String) params[1], (InputStream) params[2]);
                 Log.d("SocialAuthAdapter", "Image Uploaded");
-                return Integer.valueOf(res.getStatus());
+                return res.getStatus();
             } catch (Exception e) {
                 listener.onError(new SocialAuthError("Image Upload Error", e));
                 return null;
@@ -1296,8 +1349,13 @@ public class SocialAuthAdapter {
 
         @Override
         protected void onPostExecute(Integer status) {
-
-            listener.onExecute(getCurrentProvider().getProviderId(), status);
+            try {
+                //noinspection ConstantConditions
+                listener.onExecute(getCurrentProvider().getProviderId(), status);
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1307,7 +1365,7 @@ public class SocialAuthAdapter {
 
     private class CareerTask extends AsyncTask<Void, Void, Career> {
 
-        SocialAuthListener<Career> listener;
+        final SocialAuthListener<Career> listener;
 
         private CareerTask(SocialAuthListener<Career> listener) {
             this.listener = listener;
@@ -1318,6 +1376,7 @@ public class SocialAuthAdapter {
             try {
                 Career careerList = null;
 
+                //noinspection ConstantConditions
                 if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.CareerPlugin.class)) {
                     CareerPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.CareerPlugin.class);
                     careerList = p.getCareerDetails();
@@ -1336,8 +1395,13 @@ public class SocialAuthAdapter {
 
         @Override
         protected void onPostExecute(Career careerList) {
-
-            listener.onExecute(getCurrentProvider().getProviderId(), careerList);
+            try {
+                //noinspection ConstantConditions
+                listener.onExecute(getCurrentProvider().getProviderId(), careerList);
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 

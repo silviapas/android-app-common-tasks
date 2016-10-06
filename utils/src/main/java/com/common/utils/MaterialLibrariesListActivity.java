@@ -1,8 +1,6 @@
 package com.common.utils;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,16 +10,12 @@ import android.widget.ListView;
 
 public class MaterialLibrariesListActivity extends Activity {
 
-    Context mContext;
-    Activity mActivity;
-    ListView sdkFunctionalityList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library_list);
-        mContext = MaterialLibrariesListActivity.this;
-        mActivity = MaterialLibrariesListActivity.this;
+        //Context mContext = MaterialLibrariesListActivity.this;
+        //Activity mActivity = MaterialLibrariesListActivity.this;
 
         String[] sdkFunctionalityListValue = new String[]{
                 "Material Design Library",/* 0 */
@@ -125,7 +119,7 @@ public class MaterialLibrariesListActivity extends Activity {
                 
         };
 
-        sdkFunctionalityList = (ListView) findViewById(R.id.Md_list_company);
+        ListView sdkFunctionalityList = (ListView) findViewById(R.id.Md_list_company);
 
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, sdkFunctionalityListValue);
@@ -141,13 +135,8 @@ public class MaterialLibrariesListActivity extends Activity {
 
     }
 
-    protected void selectedListItem(int position) {
-        Intent intent = null;
-
-        switch (position) {
-
-        }
-        if (intent != null)
-            startActivity(intent);
+    @SuppressWarnings({"StatementWithEmptyBody", "EmptyMethod"})
+    private void selectedListItem(@SuppressWarnings("UnusedParameters") int position) {
+        // FIXME: TODO
     }
 }

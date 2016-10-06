@@ -39,9 +39,9 @@ import java.util.ArrayList;
  * @author vineet.aggarwal@3pillarglobal.com
  */
 
-public class PopUpListAdapter extends BaseAdapter {
+class PopUpListAdapter extends BaseAdapter {
     private final Context ctx;
-    ArrayList<AppList> data;
+    private final ArrayList<AppList> data;
     int[] imagesdata;
 
     public PopUpListAdapter(Context context, ArrayList<AppList> appList) {

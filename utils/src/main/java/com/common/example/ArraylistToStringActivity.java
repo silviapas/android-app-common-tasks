@@ -8,14 +8,12 @@ import com.common.utils.R;
 
 public class ArraylistToStringActivity extends Activity {
 
-    private TextView tvCode;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arraylist_to_string);
 
-        tvCode = (TextView) findViewById(R.id.arraylist_activity_tv_code);
+        TextView tvCode = (TextView) findViewById(R.id.arraylist_activity_tv_code);
         tvCode.setText(
                 " \t CODE TO CONVERT STRING TO ARRAY LIST \n\n" +
                         " /**\n" +

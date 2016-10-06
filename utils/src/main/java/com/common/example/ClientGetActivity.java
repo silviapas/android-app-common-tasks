@@ -5,25 +5,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.common.utils.Common;
 import com.common.utils.R;
 
 public class ClientGetActivity extends Activity {
 
-    Button btnShare;
-    TextView tvCode;
-        WebView webview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prevent_click);
 
-        btnShare = (Button) findViewById(R.id.btnShare);
-            webview = (WebView) findViewById(R.id.webView);
+        Button btnShare = (Button) findViewById(R.id.btnShare);
+        WebView webview = (WebView) findViewById(R.id.webView);
             webview.loadUrl("file:///android_asset/get.html");
-        tvCode = (TextView) findViewById(R.id.prevent_double_click_tv_code);
+//        TextView tvCode = (TextView) findViewById(R.id.prevent_double_click_tv_code);
 //        tvCode.setText(
 //                " /**\n" +
 //                        " * This is used for get data from API.\n" +

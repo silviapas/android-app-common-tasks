@@ -57,6 +57,7 @@ import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.SocialAuthManager;
 import org.brickred.socialauth.util.AccessGrant;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -67,35 +68,33 @@ import java.util.Map;
  * @author vineet.aggarwal@3pillarglobal.com
  * @author abhinav.maheswari@3pillarglobal.com
  */
-public class SocialAuthDialog extends Dialog {
+class SocialAuthDialog extends Dialog {
 
     // Variables
-    public static final int BLUE = 0xFF6D84B4;
-    public static final int MARGIN = 4;
-    public static final int PADDING = 2;
-    public static final String DISPLAY_STRING = "touch";
-    static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+    private static final int BLUE = 0xFF6D84B4;
+    private static final int MARGIN = 4;
+    private static final int PADDING = 2;
+    private static final String DISPLAY_STRING = "touch";
+    private static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
             ViewGroup.LayoutParams.FILL_PARENT);
     static final FrameLayout.LayoutParams WRAP = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT);
     public static float width = 40;
     public static float height = 60;
-    public static final float[] DIMENSIONS_DIFF_LANDSCAPE = {width, height};
-    public static final float[] DIMENSIONS_DIFF_PORTRAIT = {width, height};
+    private static final float[] DIMENSIONS_DIFF_LANDSCAPE = {width, height};
+    private static final float[] DIMENSIONS_DIFF_PORTRAIT = {width, height};
     public static boolean titleStatus = false;
     private final String mUrl;
     private final DialogListener mListener;
     // SocialAuth Components
     private final SocialAuthManager mSocialAuthManager;
     private final SocialAuthAdapter.Provider mProviderName;
-    private String newUrl;
     private int count;
     // Android Components
     private TextView mTitle;
     private ProgressDialog mSpinner;
     private CustomWebView mWebView;
     private LinearLayout mContent;
-    private Drawable icon;
     private Handler handler;
 
     /**
@@ -173,11 +172,10 @@ public class SocialAuthDialog extends Dialog {
         mTitle = new TextView(getContext());
         int res = getContext().getResources().getIdentifier(mProviderName.toString(), "drawable",
                 getContext().getPackageName());
-        icon = getContext().getResources().getDrawable(res);
-        StringBuilder sb = new StringBuilder();
-        sb.append(mProviderName.toString().substring(0, 1).toUpperCase());
-        sb.append(mProviderName.toString().substring(1, mProviderName.toString().length()));
-        mTitle.setText(sb.toString());
+        Drawable icon = getContext().getResources().getDrawable(res);
+        String sb = mProviderName.toString().substring(0, 1).toUpperCase(Locale.getDefault()) +
+                mProviderName.toString().substring(1, mProviderName.toString().length());
+        mTitle.setText(sb);
         mTitle.setGravity(Gravity.CENTER_VERTICAL);
         mTitle.setTextColor(Color.WHITE);
         mTitle.setTypeface(Typeface.DEFAULT_BOLD);
@@ -238,7 +236,7 @@ public class SocialAuthDialog extends Dialog {
 
         }
 
-        edit.commit();
+        edit.apply();
 
     }
 
@@ -253,7 +251,7 @@ public class SocialAuthDialog extends Dialog {
             String accessToken = params.get("access_token");
             Integer expires = null;
             if (params.get("expires") != null) {
-                expires = new Integer(params.get("expires"));
+                expires = Integer.valueOf(params.get("expires"));
             }
             accessGrant.setKey(accessToken);
             accessGrant.setAttribute("expires", expires);
@@ -271,6 +269,7 @@ public class SocialAuthDialog extends Dialog {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d("SocialAuth-WebView", "Override url: " + url);
 
+            String newUrl;
             if (url.startsWith(mProviderName.getCallBackUri())
                     && (mProviderName.toString().equalsIgnoreCase("facebook") || mProviderName.toString()
                     .equalsIgnoreCase("twitter"))) {

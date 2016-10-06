@@ -23,13 +23,13 @@ import eu.janmuller.android.simplecropimage.CropImage;
 
 public class CropImageActivity extends Activity {
 
-    public static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
 
     public static final String TEMP_PHOTO_FILE_NAME = "temp_photo.png";
     
-    public static final int REQUEST_CODE_GALLERY      = 0x1;
-    public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
-    public static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
+    private static final int REQUEST_CODE_GALLERY      = 0x1;
+    private static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
+    private static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
 
     private ImageView mImageView;
     private File      mFileTemp;
@@ -73,7 +73,7 @@ public class CropImageActivity extends Activity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         try {
-        	Uri mImageCaptureUri = null;
+        	Uri mImageCaptureUri;
         	String state = Environment.getExternalStorageState();
         	if (Environment.MEDIA_MOUNTED.equals(state)) {
         		mImageCaptureUri = Uri.fromFile(mFileTemp);
@@ -132,8 +132,9 @@ public class CropImageActivity extends Activity {
                     FileOutputStream fileOutputStream = new FileOutputStream(mFileTemp);
                     copyStream(inputStream, fileOutputStream);
                     fileOutputStream.close();
-                    inputStream.close();
-
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
                     startCropImage();
 
                 } catch (Exception e) {
@@ -162,7 +163,7 @@ public class CropImageActivity extends Activity {
     }
 
 
-    public static void copyStream(InputStream input, OutputStream output)
+    private static void copyStream(InputStream input, OutputStream output)
             throws IOException {
 
         byte[] buffer = new byte[1024];

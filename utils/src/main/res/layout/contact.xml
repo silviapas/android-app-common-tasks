@@ -66,6 +66,6 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/list_gradient"
         android:divider="#e4e4e4"
-        android:dividerHeight="2px"
+        android:dividerHeight="2dp"
         android:scrollingCache="false" />
 </LinearLayout>  

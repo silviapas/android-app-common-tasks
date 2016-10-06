@@ -9,7 +9,7 @@ import com.common.utils.R;
 
 public class DownloadActivity extends Activity {
 
-    String url = "http://www.firstpost.com/wp-content/uploads/2013/09/01_Android-all-versions.jpg";
+    private final String url = "http://www.firstpost.com/wp-content/uploads/2013/09/01_Android-all-versions.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

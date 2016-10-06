@@ -6,7 +6,6 @@ package com.common.example;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,10 +16,11 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class SendLocatoNotificationAct extends Activity {
-    Context mContext;
-    EditText et_NotTitle, et_NotMsg, et_GetLongPref,
-            et_GetFloatPref;
-    Button btn_Send;
+    private Context mContext;
+    private EditText et_NotTitle;
+    private EditText et_NotMsg;
+    EditText et_GetLongPref;
+    EditText et_GetFloatPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class SendLocatoNotificationAct extends Activity {
         et_NotTitle = (EditText) findViewById(R.id.et_NotTitle);
         et_NotMsg = (EditText) findViewById(R.id.et_NotMsg);
 
-        btn_Send = (Button) findViewById(R.id.btn_Send);
+        Button btn_Send = (Button) findViewById(R.id.btn_Send);
 
         btn_Send.setOnClickListener(new OnClickListener() {
 
@@ -44,7 +44,6 @@ public class SendLocatoNotificationAct extends Activity {
             public void onClick(View v) {
                 String title = et_NotTitle.getText().toString();
                 String message = et_NotMsg.getText().toString();
-                Intent mIntent = new Intent(mContext, SendLocatoNotificationAct.class);
                 Common.sendLocatNotification(mContext, title, message, null);
             }
         });

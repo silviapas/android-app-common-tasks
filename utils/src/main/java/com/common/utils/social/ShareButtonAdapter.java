@@ -38,10 +38,10 @@ import android.widget.TextView;
  * @author vineet.aggarwal@3pillarglobal.com
  */
 
-public class ShareButtonAdapter extends BaseAdapter {
+class ShareButtonAdapter extends BaseAdapter {
     private final Context ctx;
-    String[] data;
-    int[] imagesdata;
+    private final String[] data;
+    private final int[] imagesdata;
 
     public ShareButtonAdapter(Context context, String[] objects, int[] images) {
         // Cache the LayoutInflate to avoid asking for a new one each time.
@@ -96,10 +96,14 @@ public class ShareButtonAdapter extends BaseAdapter {
         text.setText(data[position]);
         final Drawable image;
         image = ctx.getResources().getDrawable(imagesdata[position]);
-        if (Util.UI_DENSITY == 320 || Util.UI_DENSITY == 240)
-            image.setBounds(0, 0, 50, 50);
-        else
-            image.setBounds(0, 0, 30, 30);
+        if (image != null) {
+            if (Util.UI_DENSITY == 320 || Util.UI_DENSITY == 240) {
+                image.setBounds(0, 0, 50, 50);
+            }
+            else {
+                image.setBounds(0, 0, 30, 30);
+            }
+        }
 
         text.setCompoundDrawables(image, null, null, null);
         text.setPadding(14, 7, 7, 7);

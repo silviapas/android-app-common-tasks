@@ -14,10 +14,10 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class GetRandomNumberAct extends Activity {
-    Context mContext;
-    EditText et_MaxRandomNumber;
-    Button btn_generateRandomNumber;
-    TextView tvInfo, tvRandomNumber;
+    private Context mContext;
+    private EditText et_MaxRandomNumber;
+    private TextView tvInfo;
+    private TextView tvRandomNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class GetRandomNumberAct extends Activity {
         tvInfo = (TextView) findViewById(R.id.tvInfo);
         tvRandomNumber = (TextView) findViewById(R.id.tvRandomNumber);
         et_MaxRandomNumber = (EditText) findViewById(R.id.et_MaxRandomNumber);
-        btn_generateRandomNumber = (Button) findViewById(R.id.btn_generateRandomNumber);
+        Button btn_generateRandomNumber = (Button) findViewById(R.id.btn_generateRandomNumber);
         btn_generateRandomNumber.setOnClickListener(new OnClickListener() {
 
             @Override

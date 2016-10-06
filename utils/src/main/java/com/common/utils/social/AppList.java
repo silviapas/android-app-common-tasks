@@ -32,7 +32,7 @@ import android.graphics.drawable.Drawable;
  *
  * @author vineet.aggarwal@3pillarglobal.com
  */
-public class AppList {
+class AppList {
 
     // Drawable
     public Drawable drawable;

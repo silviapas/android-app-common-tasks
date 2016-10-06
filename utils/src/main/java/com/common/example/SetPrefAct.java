@@ -18,11 +18,13 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class SetPrefAct extends Activity {
-    Context mContext;
-    CheckBox cbBoolean;
-    EditText etStringPref, etIntegerPref, etLongPref, etFloatPref;
-    Button btnSetPref;
-    Boolean isCbSelected = false;
+    private Context mContext;
+    private CheckBox cbBoolean;
+    private EditText etStringPref;
+    private EditText etIntegerPref;
+    private EditText etLongPref;
+    private EditText etFloatPref;
+    private Boolean isCbSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class SetPrefAct extends Activity {
         etLongPref = (EditText) findViewById(R.id.etLongPref);
         etFloatPref = (EditText) findViewById(R.id.etFloatPref);
 
-        btnSetPref = (Button) findViewById(R.id.btnSetPref);
+        Button btnSetPref = (Button) findViewById(R.id.btnSetPref);
 
         btnSetPref.setOnClickListener(new OnClickListener() {
 

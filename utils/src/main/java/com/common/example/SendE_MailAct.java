@@ -16,9 +16,8 @@ import com.common.utils.Common;
 import com.common.utils.R;
 
 public class SendE_MailAct extends Activity {
-    Context mContext;
-    EditText et_EmailId;
-    Button btn_SendEmailId;
+    private Context mContext;
+    private EditText et_EmailId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class SendE_MailAct extends Activity {
 
         et_EmailId = (EditText) findViewById(R.id.et_EmailId);
 
-        btn_SendEmailId = (Button) findViewById(R.id.btn_SendEmailId);
+        Button btn_SendEmailId = (Button) findViewById(R.id.btn_SendEmailId);
 
         btn_SendEmailId.setOnClickListener(new OnClickListener() {
 
