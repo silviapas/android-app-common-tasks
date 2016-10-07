@@ -1,4 +1,7 @@
 # Android App Common Tasks
+
+Android App Common Tasks library is developed to reduce efforts to achieve common features of the android apps. While developing the apps, we realized that we’re coding for many common tasks in all the apps. For e.g. check the network’s availability, using shared preferences, parsing, etc. And like us, many other android developers might be doing the same. So it needs to be reduced for all to save the development time with ease. And so, we decided to develop a library which can reduce developers’ time and efforts.
+
 - This Project contains Library of commonly used methods, classes and it's examples.
 
 - Library also contains easy way to implement social sdk i.e : Facebook, Twitter, Google+, LinkedIn.
