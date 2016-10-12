@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package eu.janmuller.android.simplecropimage;
+package com.common.cropimage;
 
 import android.app.Activity;
 import android.os.Bundle;

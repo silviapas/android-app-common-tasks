@@ -470,7 +470,7 @@ public class SocialAuthAdapter {
     /**
      * Internal method to load config
      *
-     * @param context The Android Activity context
+     * @param ctx The Android Activity context
      */
 
     private void loadConfig(Context ctx) throws Exception {
@@ -545,7 +545,7 @@ public class SocialAuthAdapter {
      * available it connects manager with AccessGrant else create new manager
      * and open webview
      *
-     * @param context  The Android Activity that will parent the auth dialog.
+     * @param ctx  The Android Activity that will parent the auth dialog.
      * @param provider Provider being authenticated
      */
 
@@ -758,7 +758,7 @@ public class SocialAuthAdapter {
      * @param description story description
      * @param link        link to be share
      * @param picture     picture for link
-     * @throws java.io.UnsupportedEncodingException
+     * @throws UnsupportedEncodingException
      */
 
     @SuppressWarnings("unchecked")
@@ -879,8 +879,8 @@ public class SocialAuthAdapter {
         try {
             List<Feed> feedMap = null;
             //noinspection ConstantConditions
-            if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.FeedPlugin.class)) {
-                FeedPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.FeedPlugin.class);
+            if (getCurrentProvider().isSupportedPlugin(FeedPlugin.class)) {
+                FeedPlugin p = getCurrentProvider().getPlugin(FeedPlugin.class);
                 feedMap = p.getFeeds();
                 Log.d("SocialAuthAdapter", "Received Feeds");
             } else
@@ -915,8 +915,8 @@ public class SocialAuthAdapter {
             List<Album> albumMap = null;
 
             //noinspection ConstantConditions
-            if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.AlbumsPlugin.class)) {
-                AlbumsPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.AlbumsPlugin.class);
+            if (getCurrentProvider().isSupportedPlugin(AlbumsPlugin.class)) {
+                AlbumsPlugin p = getCurrentProvider().getPlugin(AlbumsPlugin.class);
                 albumMap = p.getAlbums();
 
                 Log.d("SocialAuthAdapter", "Received Albums");
@@ -1247,8 +1247,8 @@ public class SocialAuthAdapter {
             try {
                 List<Feed> feedMap = null;
                 //noinspection ConstantConditions
-                if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.FeedPlugin.class)) {
-                    FeedPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.FeedPlugin.class);
+                if (getCurrentProvider().isSupportedPlugin(FeedPlugin.class)) {
+                    FeedPlugin p = getCurrentProvider().getPlugin(FeedPlugin.class);
                     feedMap = p.getFeeds();
                     Log.d("SocialAuthAdapter", "Received Feeds");
                 } else
@@ -1293,8 +1293,8 @@ public class SocialAuthAdapter {
                 List<Album> albumMap = null;
 
                 //noinspection ConstantConditions
-                if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.AlbumsPlugin.class)) {
-                    AlbumsPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.AlbumsPlugin.class);
+                if (getCurrentProvider().isSupportedPlugin(AlbumsPlugin.class)) {
+                    AlbumsPlugin p = getCurrentProvider().getPlugin(AlbumsPlugin.class);
                     albumMap = p.getAlbums();
 
                     Log.d("SocialAuthAdapter", "Received Albums");
@@ -1377,8 +1377,8 @@ public class SocialAuthAdapter {
                 Career careerList = null;
 
                 //noinspection ConstantConditions
-                if (getCurrentProvider().isSupportedPlugin(org.brickred.socialauth.plugin.CareerPlugin.class)) {
-                    CareerPlugin p = getCurrentProvider().getPlugin(org.brickred.socialauth.plugin.CareerPlugin.class);
+                if (getCurrentProvider().isSupportedPlugin(CareerPlugin.class)) {
+                    CareerPlugin p = getCurrentProvider().getPlugin(CareerPlugin.class);
                     careerList = p.getCareerDetails();
                     Log.d("SocialAuthAdapter", "Received Career Details");
 

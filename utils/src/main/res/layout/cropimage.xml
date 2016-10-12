@@ -5,7 +5,7 @@
         android:orientation="horizontal">
 
     <view
-            class="eu.janmuller.android.simplecropimage.CropImageView"
+            class="com.common.cropimage.CropImageView"
             android:id="@+id/image"
             android:background="#55000000"
             android:layout_width="fill_parent"

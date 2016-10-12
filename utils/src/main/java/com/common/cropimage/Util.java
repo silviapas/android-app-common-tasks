@@ -1,4 +1,4 @@
-package eu.janmuller.android.simplecropimage;
+package com.common.cropimage;
 /*
  * Copyright (C) 2009 The Android Open Source Project
  *

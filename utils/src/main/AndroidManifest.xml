@@ -204,7 +204,7 @@
             android:name="com.common.utils.MaterialLibrariesListActivity"
             />
 
-        <activity android:name="eu.janmuller.android.simplecropimage.CropImage"/>
+        <activity android:name="com.common.cropimage.CropImage"/>
 
         <provider
             android:name=".InternalStorageContentProvider"

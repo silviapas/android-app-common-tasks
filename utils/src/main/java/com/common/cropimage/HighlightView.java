@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package eu.janmuller.android.simplecropimage;
+package com.common.cropimage;
 
 
 import android.graphics.Canvas;
@@ -26,6 +26,8 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+
+import com.common.utils.R;
 
 // This class is used by CropImage to display a highlighted cropping rectangle
 // overlayed with the image. There are two coordinate spaces in use. One is

@@ -1,1 +1,1 @@
-include ':utils' , ':simplecropimagelib'
+include ':utils'

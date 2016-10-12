@@ -92,7 +92,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import eu.janmuller.android.simplecropimage.CropImage;
+import com.common.cropimage.CropImage;
 
 /**
  * @author Mayank

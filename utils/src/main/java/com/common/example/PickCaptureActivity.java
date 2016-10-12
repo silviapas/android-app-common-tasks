@@ -16,7 +16,7 @@ import com.common.utils.R;
 
 import java.io.File;
 
-import eu.janmuller.android.simplecropimage.CropImage;
+import com.common.cropimage.CropImage;
 
 public class PickCaptureActivity extends Activity implements View.OnClickListener {
 

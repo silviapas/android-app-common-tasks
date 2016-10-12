@@ -80,8 +80,8 @@ class PopUpListAdapter extends BaseAdapter {
     /**
      * Make a view to hold each row.
      *
-     * @see android.widget.ListAdapter#getView(int, android.view.View,
-     * android.view.ViewGroup)
+     * @see android.widget.ListAdapter#getView(int, View,
+     * ViewGroup)
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

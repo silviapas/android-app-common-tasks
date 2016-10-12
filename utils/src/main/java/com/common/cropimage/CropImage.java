@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package eu.janmuller.android.simplecropimage;
+package com.common.cropimage;
 
 
 import android.annotation.SuppressLint;
@@ -43,6 +43,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.common.utils.R;
 
 import java.io.File;
 import java.io.IOException;
