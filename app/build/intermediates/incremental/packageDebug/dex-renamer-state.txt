@@ -1,0 +1,7 @@
+#Wed Oct 12 18:12:50 IST 2016
+base.0=E\:\\Multidots\\Project Work\\CommonTask\\android-app-common-tasks\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_e13d8b4583123becd93d7b1022d8861d783d9993
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=E\:\\Multidots\\Project Work\\CommonTask\\android-app-common-tasks\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_307b7ef301949459f343af6892186dc91bf24d1f\\classes.dex
+base.1=E\:\\Multidots\\Project Work\\CommonTask\\android-app-common-tasks\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_307b7ef301949459f343af6892186dc91bf24d1f
+file.0=E\:\\Multidots\\Project Work\\CommonTask\\android-app-common-tasks\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_e13d8b4583123becd93d7b1022d8861d783d9993\\classes.dex
