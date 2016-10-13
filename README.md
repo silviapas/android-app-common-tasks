@@ -72,9 +72,25 @@ This Project includes following common features.
     Invoke callback after ImageView is loaded.
     Notif ImageView
 
-####You can download the demo apk from [here](/docs/CommonTaskDemo.apk) .
 
-####Refer **[CommonTaskDoc.pdf](/docs/CommonTaskDoc.pdf)** for learning how to use methods of this SDK.
+##Gradle:
+Integrate this library into your build.gradle using below dependency.
+```
+repositories {
+    maven {
+        url  "http://dl.bintray.com/multidots/md-maven" 
+    }
+}
+dependency {
+    compile 'com.multidots:common-task:1.0'
+}
+```
+
+##Demo
+You can download the demo apk from [here](/docs/CommonTaskDemo.apk) .
+
+##Documentation
+Refer **[CommonTaskDoc.pdf](/docs/CommonTaskDoc.pdf)** for learning how to use methods of this SDK.
 
 =======
 
