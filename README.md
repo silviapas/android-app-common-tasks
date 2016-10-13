@@ -1,3 +1,5 @@
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Finger%20Print%20Auth%20Helper-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1676) [ ![Download](https://api.bintray.com/packages/multidots/md-maven/android-common-tasks/images/download.svg) ](https://bintray.com/multidots/md-maven/android-common-tasks/_latestVersion)
+
 # Android App Common Tasks
 
 Android App Common Tasks library is developed to reduce efforts to achieve common features of the android apps. While developing the apps, we realized that we’re coding for many common tasks in all the apps. For e.g. check the network’s availability, using shared preferences, parsing, etc. And like us, many other android developers might be doing the same. So it needs to be reduced for all to save the development time with ease. And so, we decided to develop a library which can reduce developers’ time and efforts.
