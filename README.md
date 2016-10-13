@@ -1,4 +1,4 @@
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Finger%20Print%20Auth%20Helper-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1676) [ ![Download](https://api.bintray.com/packages/multidots/md-maven/android-common-tasks/images/download.svg) ](https://bintray.com/multidots/md-maven/android-common-tasks/_latestVersion)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android%20Common%20Tasks-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1676) [ ![Download](https://api.bintray.com/packages/multidots/md-maven/android-common-tasks/images/download.svg) ](https://bintray.com/multidots/md-maven/android-common-tasks/_latestVersion)
 
 # Android App Common Tasks
 
