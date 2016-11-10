@@ -2,10 +2,6 @@ language: android
 jdk: oraclejdk8
 sudo: false
 
-notifications:
-    email:
-        - kevalpatel2106@gmail.com
-        
 env:
     global:
         - ADB_INSTALL_TIMEOUT=10    #Time out to 10 mins
