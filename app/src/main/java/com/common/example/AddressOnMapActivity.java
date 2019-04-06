@@ -14,6 +14,8 @@ public class AddressOnMapActivity extends Activity {
     private EditText et_Url;
     private AddressOnMapActivity mContext;
 
+
+/* ciao ciao commit*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
